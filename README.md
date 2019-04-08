@@ -4,8 +4,6 @@
 
 ## Installation
 
-Not published on npm (yet).
-
 ```bash
 npm install bemmed
 ```
