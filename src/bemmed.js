@@ -187,17 +187,7 @@ export const BEMType = BEM.propType;
 /**
  * Array object with convenience methods to handle multiple BEM instances.
  */
-export function BEMList(...args) {
-  Object.setPrototypeOf(args, BEMList.prototype);
-  return args;
-}
-BEMList.prototype = Object.create(Array.prototype);
-BEMList.prototype.constructor = BEMList;
-
-// copy static Array functions:
-Object.getOwnPropertyNames(Array).forEach(p => {
-  if (typeof Array[p] === "function") BEMList[p] = Array[p];
-});
+export class BEMList extends Array {}
 
 /**
  * Forces all items to their string value and returns them joined by a space.
