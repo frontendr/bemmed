@@ -177,6 +177,98 @@ String(new BEM("block").concat(
 //=> "block just-a-string b__e--m foo foo--bar"
 ```
 
+## API
+
+### Creating a new instance
+
+Create a new instance. Usually only with a block
+```
+const cls = new BEM(block: string[ element: string[ modifier: string]]): BEM
+```
+
+### Setting the element or modifier parts
+
+Using the `element()` (or `elem()` alias) method returns a new `BEM` instance with the
+provided element part.
+```
+cls.element(element: string): BEM
+cls.elem(element: string): BEM
+```
+
+Using the `modifier()` (or `mod()` alias) method returns a new `BEM` instance with the
+provided modifier part.
+```
+cls.modifier(modifier: string): BEM
+cls.mod(modifier: string): BEM
+```
+
+### Adding an element
+
+To create a block together with one or more elements
+
+```
+cls.withElem(...elements: string): BEMList
+```
+
+```js
+new BEM("block").withElem("foo", "bar").toString();
+//=> "block block__foo block__bar"
+```
+
+Very useful when destructuring:
+
+```js
+const [tableClass, rowClass, cellClass] = new BEM("table").withElem("row", "cell");
+```
+
+### Adding a modifier
+
+Usually you want to output a base class **and** the modifier class. Returns a new
+`BEMList` with `BEM` instances for each part.
+
+```
+cls.withMod(...modifiers: string|Object): BEMList
+```
+
+```js
+new BEM("block").withMod("always-add-this", {
+  "and-this": true,
+  "but-not-this": false
+}).toString()
+//=> "block block--always-add-this block--and-this"
+```
+
+A `BEMList` is just a subclass of `Array` with a modified `toString()` method so it
+renders as a proper `className` with spaces between the classes.
+
+### Creating multiple elements
+
+Pre-initializing a set of elements for a block is also a common use case. Returns a new
+`BEMList` with `BEM` instances for the given elements.
+
+```
+cls.elements(...element: string): BEMList
+```
+
+```js
+new BEM("block").elements("foo", "bar").toString();
+//=> "block__foo block__bar"
+```
+
+### Combining or concatenating classes
+
+Same method as [`Array.concat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat).
+Returns a new `BEMList` with the items appended. Remember: Array's are flattened!
+
+```
+cls.concat(...items: any): BEMList
+```
+
+```js
+new BEM("b1").concat(new BEM("b2"), "just-a-string", ["array", "of", "items"]).toString();
+// => "b1 b2 just-a-string array of items"
+```
+
 ## FAQ
 
 ### Why not use a real ES2015 `class`?
