@@ -15,6 +15,7 @@
     "class"
   ],
   "typings": "declarations/bemmed.d.ts",
+  "repository": "https://github.com/frontendr/bem",
   "author": "Johan Arensman <info@frontendr.com>",
   "license": "MIT",
   "devDependencies": {
