@@ -1,8 +1,8 @@
 {
-  "name": "bem",
+  "name": "bemmed",
   "version": "1.0.0",
-  "description": "BEM className composer.",
-  "main": "src/bem.js",
+  "description": "BEM class name composer.",
+  "main": "lib/bem.js",
   "scripts": {
     "build": "babel src --out-dir lib",
     "prettier": "prettier --write ./src/**/*.js",

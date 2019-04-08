@@ -1,4 +1,4 @@
-# BEM
+# BEMMED
 
 > JavaScript reusable composer class for BEM (Block Element Modifier) CSS classes.
 
@@ -7,7 +7,7 @@
 Not published on npm (yet).
 
 ```bash
-npm install github:frontendr/bem
+npm install bemmed
 ```
 
 ## The problem solved
@@ -97,6 +97,19 @@ props.
 - ✖️ Acts like `block__element--modifier`, no way of setting other separators (yet).
 
 ## Usage
+
+Importing in ES6:
+```js
+import BEM from "bemmed";
+```
+or in CommonJS:
+```js
+// require the named export:
+const {BEM} = require("bemmed");
+
+// or as default:
+const BEM = require("bemmed").default;
+```
 
 By example:
 
