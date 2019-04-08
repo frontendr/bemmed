@@ -1,0 +1,17 @@
+# NPM
+/node_modules
+/npm-shrinkwrap.json
+/package-lock.json
+
+# OS
+.DS_Store
+
+# (By) products
+/lib
+*.log
+
+# Jetbrains IDE's
+/.idea
+
+/.coveralls.yml
+/.nyc_output
