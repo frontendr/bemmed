@@ -1,11 +1,11 @@
 {
   "name": "bemmed",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "BEM class name composer.",
-  "main": "lib/bem.js",
+  "main": "lib/bemmed.js",
   "scripts": {
     "build": "babel src --out-dir lib",
-    "prettier": "prettier --write ./src/**/*.js",
+    "prettier": "prettier --write ./{declarations,src,test}/**/*.{js,d.ts}",
     "test": "eslint . && npm run test:unit",
     "test:unit": "mocha"
   },
@@ -14,6 +14,8 @@
     "css",
     "class"
   ],
+  "typings": "declarations/bemmed.d.ts",
+  "repository": "https://github.com/frontendr/bem",
   "author": "Johan Arensman <info@frontendr.com>",
   "license": "MIT",
   "devDependencies": {
@@ -25,7 +27,7 @@
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-prettier": "^3.0.1",
-    "mocha": "^6.1.0",
+    "mocha": "^6.1.2",
     "nyc": "^13.3.0",
     "prettier": "^1.16.4"
   }

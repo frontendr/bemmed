@@ -1,7 +1,7 @@
 const assert = require("assert");
 
-const {BEM, BEMList} = require("../lib/bem");
-const DefaultExport = require("../lib/bem").default;
+const {BEM, BEMList} = require("../lib/bemmed");
+const DefaultExport = require("../lib/bemmed").default;
 
 describe("When constructing a new BEM instance", () => {
   it("should be able to only create a block", () => {
