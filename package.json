@@ -5,7 +5,7 @@
   "main": "lib/bem.js",
   "scripts": {
     "build": "babel src --out-dir lib",
-    "prettier": "prettier --write ./src/**/*.js",
+    "prettier": "prettier --write ./{declarations,src,test}/**/*.{js,d.ts}",
     "test": "eslint . && npm run test:unit",
     "test:unit": "mocha"
   },
@@ -14,6 +14,7 @@
     "css",
     "class"
   ],
+  "typings": "declarations/bem.d.ts",
   "author": "Johan Arensman <info@frontendr.com>",
   "license": "MIT",
   "devDependencies": {
