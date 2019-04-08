@@ -181,6 +181,7 @@ BEM.propType = (props, propName, componentName) => {
   );
 };
 
+export default BEM;
 export const BEMType = BEM.propType;
 
 /**

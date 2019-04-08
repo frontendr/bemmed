@@ -1,6 +1,7 @@
 const assert = require("assert");
 
 const {BEM, BEMList} = require("../lib/bem");
+const DefaultExport = require("../lib/bem").default;
 
 describe("When constructing a new BEM instance", () => {
   it("should be able to only create a block", () => {
@@ -255,5 +256,11 @@ describe("When using the PropType", () => {
       BEM.propType(props, "nullValue", "TestComponent") instanceof Error,
       true
     );
+  });
+});
+
+describe("When the default export", () => {
+  it("should be the same object as the named export 'BEM'", () => {
+    assert.strictEqual(DefaultExport, BEM);
   });
 });
