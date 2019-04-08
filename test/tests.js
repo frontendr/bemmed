@@ -259,6 +259,19 @@ describe("When using the PropType", () => {
   });
 });
 
+describe("When working with a BEMList", () => {
+  it("should remain a BEMList after using from()", () => {
+    const list = BEMList.from(["a", "b"]);
+    assert.strictEqual(list instanceof BEMList, true);
+  });
+
+  it("should remain a BEMList after using concat()", () => {
+    const list = BEMList.from(["a", "b"]);
+    const concatenated = list.concat("c");
+    assert.strictEqual(concatenated instanceof BEMList, true);
+  });
+});
+
 describe("When the default export", () => {
   it("should be the same object as the named export 'BEM'", () => {
     assert.strictEqual(DefaultExport, BEM);

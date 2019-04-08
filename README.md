@@ -284,11 +284,6 @@ new BEM("b1").concat(new BEM("b2"), "just-a-string", ["array", "of", "items"]).t
 
 ## FAQ
 
-### Why not use a real ES2015 `class`?
-The reason for this is simply minification. Without a `class` transpiling code using this
-tool doesn't require a lot of extra code simply to define a `class`. This code just works
-directly and doesn't bloat your code after transpiling.
-
 ### Why bother, doesn't gzip solve this already?
 Yes it does help in some cases but it can never yield the same results and does not give
 any of the benefits such as reusable objects, readability and ease of development.
