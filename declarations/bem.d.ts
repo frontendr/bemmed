@@ -1,5 +1,5 @@
 declare type elementPart = string|number
-declare type modifierPart = string|number;
+declare type modifierPart = string|number|Object;
 
 declare class BEM {
   private b?: String;
