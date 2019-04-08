@@ -109,7 +109,7 @@ BEM.prototype.elements = function elements(...elements) {
  * > ["block", "block__element1", "block__element2"]
  */
 BEM.prototype.withElem = function withElem(...elements) {
-  return this.concat(this.elements(...elements));
+  return this.concat(...this.elements(...elements));
 };
 
 /**
