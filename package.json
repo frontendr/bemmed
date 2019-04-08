@@ -2,7 +2,7 @@
   "name": "bemmed",
   "version": "1.0.0",
   "description": "BEM class name composer.",
-  "main": "lib/bem.js",
+  "main": "lib/bemmed.js",
   "scripts": {
     "build": "babel src --out-dir lib",
     "prettier": "prettier --write ./{declarations,src,test}/**/*.{js,d.ts}",
@@ -14,7 +14,7 @@
     "css",
     "class"
   ],
-  "typings": "declarations/bem.d.ts",
+  "typings": "declarations/bemmed.d.ts",
   "author": "Johan Arensman <info@frontendr.com>",
   "license": "MIT",
   "devDependencies": {
