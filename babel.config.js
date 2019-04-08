@@ -16,6 +16,7 @@ module.exports = function(api) {
 
   return {
     comments: false,
+    compact: true,
     presets,
     plugins
   };
