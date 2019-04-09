@@ -4,11 +4,16 @@
 
 ## Installation
 
-Not published on npm (yet).
-
 ```bash
 npm install bemmed
 ```
+
+[![Build Status](https://travis-ci.org/frontendr/bem.svg?branch=develop)](https://travis-ci.org/frontendr/bem)
+[![npm version](https://img.shields.io/npm/v/bemmed.svg)](https://www.npmjs.com/package/bemmed)
+[![npm downloads](https://img.shields.io/npm/dm/bemmed.svg)](https://www.npmjs.com/package/bemmed)
+[![Coverage Status](https://coveralls.io/repos/github/frontendr/bem/badge.svg?branch=develop)](https://coveralls.io/github/frontendr/bem?branch=develop)
+[![DevDependencies](https://img.shields.io/david/dev/frontendr/bem.svg)](https://david-dm.org/frontendr/bem?type=dev)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## The problem solved
 
@@ -94,7 +99,8 @@ props.
 - ✅ Adding multiple modifiers, requesting the base _with_ an element or modifier or
      concatenating it results in a `BEMList` which is a subclass of `Array` and renders
      as proper CSS classes separated by a space character.
-- ✖️ Acts like `block__element--modifier`, no way of setting other separators (yet).
+- ✅️ Acts like `block__element--modifier` by default.
+- ✅ The separators can be changed by creating a new class using `setup()`.
 
 ## Usage
 
@@ -188,6 +194,18 @@ String(new BEM("block").concat(
   new BEM("foo").withMod('bar') // BEMList
 ));
 //=> "block just-a-string b__e--m foo foo--bar"
+
+// Create a custom class with modified separators using the setup function.
+import {setup} from "bemmed";
+
+const UnderBEM = setup({ // or just name it `BEM`.
+  elementSeparator: "_",
+  modifierSeparator: "__"
+});
+new UnderBEM("block", "element", "modifier").toString();
+//=> "block_element__modifier"
+
+// Export this custom BEM class and import it in your application from here.
 ```
 
 ## API
@@ -280,6 +298,36 @@ cls.concat(...items: any): BEMList
 ```js
 new BEM("b1").concat(new BEM("b2"), "just-a-string", ["array", "of", "items"]).toString();
 // => "b1 b2 just-a-string array of items"
+```
+
+### Customizing separators
+
+Use the `setup()` function to create a customized BEM class.
+
+The function takes an object literal which can contain the following properties:
+
+ Property            | Default | Description
+---------------------|---------|--------------------------------------------------------
+ `elementSeparator`  | `"__"`  | Separator string between the block and element part.
+ `modifierSeparator` | `"--"`  | Separator string between the element and modifier part.
+
+Create a module in your project e.g. `utils/bem.js`. 
+
+```js
+import {setup} from "bemmed";
+export const BEM = setup({
+  elementSeparator: "_",
+  modifierSeparator: "__"
+});
+
+// This would produce classes like "block_element__modifier"
+```
+
+Then in your project just import `BEM` from that module:
+
+```js
+import {BEM} from "./utils/bem";
+// BEM is now your customized version.
 ```
 
 ## FAQ

@@ -1,6 +1,6 @@
 const assert = require("assert");
 
-const {BEM, BEMList} = require("../lib/bemmed");
+const {BEM, BEMList, setup} = require("../lib/bemmed");
 const DefaultExport = require("../lib/bemmed").default;
 
 describe("When constructing a new BEM instance", () => {
@@ -275,5 +275,18 @@ describe("When working with a BEMList", () => {
 describe("When the default export", () => {
   it("should be the same object as the named export 'BEM'", () => {
     assert.strictEqual(DefaultExport, BEM);
+  });
+});
+
+describe("When changing separators using setup()", () => {
+  const CustomBEM = setup({elementSeparator: "~", modifierSeparator: "~~"});
+
+  it("should generate a class with custom separators", () => {
+    const cls = new CustomBEM("block", "element", "modifier");
+    assert.strictEqual(cls.toString(), "block~element~~modifier");
+  });
+
+  it("the instance should look like a BEM object", () => {
+    assert.strictEqual(new CustomBEM("block").constructor.name, "BEM");
   });
 });
