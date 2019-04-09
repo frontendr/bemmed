@@ -32,3 +32,10 @@ export default class BEM {
 export const BEMType: typeof BEM.propType;
 
 export class BEMList extends Array {}
+
+declare type BEMOptions = {
+  elementSeparator?: string;
+  modifierSeparator?: string;
+}
+
+export function setup(options?: BEMOptions): BEM;
