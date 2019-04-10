@@ -82,7 +82,7 @@ That's 69 bytes (-14%) *and* we gained the ability to reuse the classes allowing
 greater benefits.
 
 As you can see in the example above, there is **no** repetition. The className variables
-can be easily minified and mangled. Each `BEM` instance stays reusable to it can be
+can be easily minified and mangled. Each `BEM` instance stays reusable so it can be
 modified later as you can see when we use `withMod` inside the component based on it's
 props.
 
