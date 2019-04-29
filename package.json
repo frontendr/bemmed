@@ -5,8 +5,9 @@
   "main": "lib/bemmed.js",
   "scripts": {
     "build": "babel src --out-dir lib",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "prettier": "prettier --write ./{declarations,src,test}/**/*.{js,d.ts}",
-    "test": "eslint . && nyc npm run test:unit && nyc report --reporter=text-lcov | coveralls",
+    "test": "eslint . && nyc npm run test:unit",
     "test:unit": "mocha"
   },
   "keywords": [
