@@ -40,7 +40,7 @@ function Profile({theme, collapsed, avatar, name}) {
         </figure>
       </header>
       ...
-    </article>    
+    </article>
   );
 }
 ```
