@@ -143,11 +143,10 @@ const Proto = {
    * @return {BEMList} List of BEM instances.
    */
   withMod: function withMod(...modifiers) {
-    return this.concat(
-      ...dedupe(modifiers)
-        .map(m => (isValidBEMPart(m) ? this.modifier(m) : null))
-        .filter(isValidBEMPart)
-    );
+    const mods = dedupe(modifiers)
+      .map(m => (isValidBEMPart(m) ? this.modifier(m) : null))
+      .filter(bem => isValidBEMPart(bem) && bem.m);
+    return this.concat(...mods);
   },
 
   /**
