@@ -197,7 +197,11 @@ describe("When creating a block *with* an element", () => {
 describe("When creating a block *with* a modifier", () => {
   const block = new BEM("block");
   const blockWithModifier = block.withMod("modifier");
-  const blockWithAllFalsyModifiers = block.withMod({falsy: false});
+  const blockWithAllFalsyModifiers = block.withMod({
+    falsy: false,
+    nully: null,
+    empty: ""
+  });
 
   it("should create a BEMList", () => {
     assert.strictEqual(blockWithModifier instanceof BEMList, true);
@@ -217,6 +221,10 @@ describe("When creating a block *with* a modifier", () => {
 
   it("should return only 1 class if no modifiers are applied", () => {
     assert.strictEqual(blockWithAllFalsyModifiers.length, 1);
+  });
+
+  it("should only return the base class with no valid modifiers", () => {
+    assert.strictEqual(block.toString(), blockWithAllFalsyModifiers.toString());
   });
 });
 
