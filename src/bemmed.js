@@ -144,8 +144,8 @@ const Proto = {
    */
   withMod: function withMod(...modifiers) {
     const mods = dedupe(modifiers)
-      .map(m => (isValidBEMPart(m) ? this.modifier(m) : null))
-      .filter(bem => isValidBEMPart(bem) && bem.m);
+      .map(m => this.modifier(m))
+      .filter(bem => bem instanceof BEMList || !!bem.m);
     return this.concat(...mods);
   },
 

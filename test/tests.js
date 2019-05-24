@@ -83,6 +83,10 @@ describe("When using an object as modifier", () => {
 describe("When setting multiple modifiers of an instance", () => {
   const block = new BEM("block");
   const blockModifiers = block.modifier("mod1", "mod2");
+  const blockModifiedWithObject = block.modifier({
+    yes: true,
+    awesome: true
+  });
 
   it("should create a BEMList", () => {
     assert.strictEqual(blockModifiers instanceof BEMList, true);
@@ -94,6 +98,10 @@ describe("When setting multiple modifiers of an instance", () => {
 
   it("should create 2 block--modifier classes", () => {
     assert.strictEqual(blockModifiers.toString(), "block--mod1 block--mod2");
+  });
+
+  it("should also work with an object", () => {
+    assert.strictEqual(blockModifiedWithObject.toString(), "block--yes block--awesome");
   });
 });
 
@@ -197,7 +205,16 @@ describe("When creating a block *with* an element", () => {
 describe("When creating a block *with* a modifier", () => {
   const block = new BEM("block");
   const blockWithModifier = block.withMod("modifier");
-  const blockWithAllFalsyModifiers = block.withMod({falsy: false});
+  const blockWithAllFalsyModifiers = block.withMod({
+    falsy: false,
+    nully: null,
+    empty: ""
+  });
+  const blockWithMixedObjectModifiers = block.withMod({
+    foo: true,
+    bar: true,
+    falsy: false
+  });
 
   it("should create a BEMList", () => {
     assert.strictEqual(blockWithModifier instanceof BEMList, true);
@@ -217,6 +234,17 @@ describe("When creating a block *with* a modifier", () => {
 
   it("should return only 1 class if no modifiers are applied", () => {
     assert.strictEqual(blockWithAllFalsyModifiers.length, 1);
+  });
+
+  it("should only return the base class with no valid modifiers", () => {
+    assert.strictEqual(block.toString(), blockWithAllFalsyModifiers.toString());
+  });
+
+  it("should correctly apply object modifiers", () => {
+    assert.strictEqual(
+      blockWithMixedObjectModifiers.toString(),
+      "block block--foo block--bar"
+    );
   });
 });
 
