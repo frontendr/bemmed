@@ -81,7 +81,7 @@ const Proto = {
    * modifier parts. If modifier parts are given, an array of BEM instances of the element
    * and all modified classes is returned.
    */
-  element: function element(element, ...modifiers) {
+  element(element, ...modifiers) {
     const cls = new this.constructor(this.b, element, null);
     if (modifiers.length) {
       return cls.withMod(...modifiers);
@@ -98,7 +98,7 @@ const Proto = {
    * @param {...string} elements
    * @returns {BEMList}
    */
-  elements: function elements(...elements) {
+  elements(...elements) {
     return BEMList.from(elements.map(element => this.element(element)));
   },
 
@@ -114,7 +114,7 @@ const Proto = {
    * cls.withElem('element1', 'element2');
    * > ["block", "block__element1", "block__element2"]
    */
-  withElem: function withElem(...elements) {
+  withElem(...elements) {
     return this.concat(...this.elements(...elements));
   },
 
@@ -126,7 +126,7 @@ const Proto = {
    * modifier parts. If an array
    * is given, an array of BEM instances is returned.
    */
-  modifier: function modifier(...modifiers) {
+  modifier(...modifiers) {
     const mods = createModifiers(modifiers);
     if (mods.length > 1) {
       return BEMList.from(
@@ -142,7 +142,7 @@ const Proto = {
    * @param {...string|Object} modifiers Rest arguments are applied as modifier
    * @return {BEMList} List of BEM instances.
    */
-  withMod: function withMod(...modifiers) {
+  withMod(...modifiers) {
     const mods = dedupe(modifiers)
       .map(m => this.modifier(m))
       .filter(bem => bem instanceof BEMList || !!bem.m);
@@ -154,7 +154,7 @@ const Proto = {
    * @param {...BEM|BEMList|string} items
    * @returns {BEMList}
    */
-  concat: function concat(...items) {
+  concat(...items) {
     return BEMList.from([this, ...dedupe(items)]);
   },
 
@@ -162,7 +162,7 @@ const Proto = {
    * Returns the string representation of this BEM class.
    * @return {string} A string in the form of block__element--modifier
    */
-  toString: function toString() {
+  toString() {
     return this.b + createBEMPart(this.e, this.es) + createBEMPart(this.m, this.ms);
   }
 };
