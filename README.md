@@ -311,7 +311,7 @@ The function takes an object literal which can contain the following properties:
  `elementSeparator`  | `"__"`  | Separator string between the block and element part.
  `modifierSeparator` | `"--"`  | Separator string between the element and modifier part.
 
-Create a module in your project e.g. `utils/bem.js`. 
+Create a module in your project e.g. `utils/bem.js`.
 
 ```js
 import {setup} from "bemmed";
@@ -329,6 +329,18 @@ Then in your project just import `BEM` from that module:
 import {BEM} from "./utils/bem";
 // BEM is now your customized version.
 ```
+
+## PropTypes
+`BEM` provides several [PropTypes](https://www.npmjs.com/package/prop-types) to ease the
+usage with libraries such as React. All propTypes also support an `.isRequired` property
+to allow `undefined` values.
+
+PropType                  | Description
+------------------------- | ----------------------------------
+`BEM.propTypes.bem`       | Valid `BEM` or `BEMList` instances.
+`BEM.propTypes.className` | Utility PropType for checking any valid value which can be used in a `className` attribute in `JSX` (including `BEM` or `BEMList` instances).
+`BEM.propTypes.element`   | Valid value for `BEM.element()`.
+`BEM.propTypes.modifier`  | Valid value for `BEM.modifier()`.
 
 ## FAQ
 
