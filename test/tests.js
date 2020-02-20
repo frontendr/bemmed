@@ -248,47 +248,212 @@ describe("When creating a block *with* a modifier", () => {
   });
 });
 
-describe("When using the PropType", () => {
-  const props = {
-    bem: new BEM("block", "element", "modifier"),
-    bemList: BEMList.from(["foo", "bar"]),
-    str: "string",
-    emptyString: "",
-    num: 123,
-    boolTrue: true,
-    boolFalse: false,
-    nullValue: null
-  };
+/**
+ * PropType testing function which should succeed.
+ * @param {function} func The propType function
+ * @param {Object} props The props object
+ * @param {string} prop The prop name
+ */
+function shouldAccept(func, props, prop) {
+  assert.strictEqual(func(props, prop, "TestComponent"), undefined);
+}
 
+/**
+ * PropType testing function which should fail.
+ * @param {function} func The propType function
+ * @param {Object} props The props object
+ * @param {string} prop The prop name
+ */
+function shouldReject(func, props, prop) {
+  assert.strictEqual(func(props, prop, "TestComponent") instanceof Error, true);
+}
+
+const props = {
+  bem: new BEM("block", "element", "modifier"),
+  bemList: BEMList.from(["foo", "bar"]),
+  emptyString: "",
+  str: "string",
+  num: 123,
+  boolTrue: true,
+  boolFalse: false,
+  nullValue: null,
+  array: ["a", "r", "r", "a", "y"],
+  undef: undefined
+};
+
+describe("BEM.propTypes.bem", () => {
+  const func = BEM.propTypes.bem;
+
+  it("should only reject undefined when required", () => {
+    shouldAccept(func, props, "undef");
+    shouldReject(func.isRequired, props, "undef");
+  });
   it("should accept BEM instances", () => {
-    assert.strictEqual(BEM.propType(props, "bem", "TestComponent"), undefined);
+    shouldAccept(func, props, "bem");
+    shouldAccept(func.isRequired, props, "bem");
+  });
+  it("should accept BEMList instances", () => {
+    shouldAccept(func, props, "bemList");
+    shouldAccept(func.isRequired, props, "bemList");
+  });
+  it("should reject strings", () => {
+    shouldReject(func, props, "str");
+    shouldReject(func.isRequired, props, "str");
+  });
+  it("should reject numbers", () => {
+    shouldReject(func, props, "num");
+    shouldReject(func.isRequired, props, "num");
+  });
+  it("should reject boolean true", () => {
+    shouldReject(func, props, "boolTrue");
+    shouldReject(func.isRequired, props, "boolTrue");
+  });
+  it("should reject boolean false", () => {
+    shouldReject(func, props, "boolFalse");
+    shouldReject(func.isRequired, props, "boolFalse");
+  });
+  it("should reject arrays", () => {
+    shouldReject(func, props, "array");
+    shouldReject(func.isRequired, props, "array");
+  });
+  it("should reject null", () => {
+    shouldReject(func, props, "nullValue");
+    shouldReject(func.isRequired, props, "nullValue");
+  });
+});
+
+describe("BEM.propTypes.className", () => {
+  const func = BEM.propTypes.className;
+
+  it("should only reject undefined when required", () => {
+    shouldAccept(func, props, "undef");
+    shouldReject(func.isRequired, props, "undef");
+  });
+  it("should accept BEM instances", () => {
+    shouldAccept(func, props, "bem");
+    shouldAccept(func.isRequired, props, "bem");
+  });
+  it("should accept BEMList instances", () => {
+    shouldAccept(func, props, "bemList");
+    shouldAccept(func.isRequired, props, "bemList");
+  });
+  it("should accept empty strings", () => {
+    shouldAccept(func, props, "emptyString");
+    shouldAccept(func.isRequired, props, "emptyString");
   });
   it("should accept strings", () => {
-    assert.strictEqual(BEM.propType(props, "str", "TestComponent"), undefined);
+    shouldAccept(func, props, "str");
+    shouldAccept(func.isRequired, props, "str");
   });
   it("should accept numbers", () => {
-    assert.strictEqual(BEM.propType(props, "num", "TestComponent"), undefined);
+    shouldAccept(func, props, "num");
+    shouldAccept(func.isRequired, props, "num");
   });
-  it("should accept an empty string", () => {
-    assert.strictEqual(BEM.propType(props, "emptyString", "TestComponent"), undefined);
+  it("should reject boolean true", () => {
+    shouldReject(func, props, "boolTrue");
+    shouldReject(func.isRequired, props, "boolTrue");
   });
-  it("should not accept boolean true", () => {
-    assert.strictEqual(
-      BEM.propType(props, "boolTrue", "TestComponent") instanceof Error,
-      true
-    );
+  it("should reject boolean false", () => {
+    shouldReject(func, props, "boolFalse");
+    shouldReject(func.isRequired, props, "boolFalse");
   });
-  it("should not accept boolean false", () => {
-    assert.strictEqual(
-      BEM.propType(props, "boolFalse", "TestComponent") instanceof Error,
-      true
-    );
+  it("should reject arrays", () => {
+    shouldReject(func, props, "array");
+    shouldReject(func.isRequired, props, "array");
   });
-  it("should not accept null", () => {
-    assert.strictEqual(
-      BEM.propType(props, "nullValue", "TestComponent") instanceof Error,
-      true
-    );
+  it("should reject null", () => {
+    shouldReject(func, props, "nullValue");
+    shouldReject(func.isRequired, props, "nullValue");
+  });
+});
+
+describe("BEM.propTypes.element", () => {
+  const func = BEM.propTypes.element;
+
+  it("should only reject undefined when required", () => {
+    shouldAccept(func, props, "undef");
+    shouldReject(func.isRequired, props, "undef");
+  });
+  it("should reject BEM instances", () => {
+    shouldReject(func, props, "bem");
+    shouldReject(func.isRequired, props, "bem");
+  });
+  it("should reject BEMList instances", () => {
+    shouldReject(func, props, "bemList");
+    shouldReject(func.isRequired, props, "bemList");
+  });
+  it("should accept empty strings", () => {
+    shouldAccept(func, props, "emptyString");
+    shouldAccept(func.isRequired, props, "emptyString");
+  });
+  it("should accept strings", () => {
+    shouldAccept(func, props, "str");
+    shouldAccept(func.isRequired, props, "str");
+  });
+  it("should accept numbers", () => {
+    shouldAccept(func, props, "num");
+    shouldAccept(func.isRequired, props, "num");
+  });
+  it("should reject boolean true", () => {
+    shouldReject(func, props, "boolTrue");
+    shouldReject(func.isRequired, props, "boolTrue");
+  });
+  it("should reject boolean false", () => {
+    shouldReject(func, props, "boolFalse");
+    shouldReject(func.isRequired, props, "boolFalse");
+  });
+  it("should reject arrays", () => {
+    shouldReject(func, props, "array");
+    shouldReject(func.isRequired, props, "array");
+  });
+  it("should reject null", () => {
+    shouldReject(func, props, "nullValue");
+    shouldReject(func.isRequired, props, "nullValue");
+  });
+});
+
+describe("BEM.propTypes.modifier", () => {
+  const func = BEM.propTypes.modifier;
+
+  it("should only reject undefined when required", () => {
+    shouldAccept(func, props, "undef");
+    shouldReject(func.isRequired, props, "undef");
+  });
+  it("should accept BEM instances", () => {
+    shouldAccept(func, props, "bem");
+    shouldAccept(func.isRequired, props, "bem");
+  });
+  it("should accept BEMList instances", () => {
+    shouldAccept(func, props, "bemList");
+    shouldAccept(func.isRequired, props, "bemList");
+  });
+  it("should accept empty strings", () => {
+    shouldAccept(func, props, "emptyString");
+    shouldAccept(func.isRequired, props, "emptyString");
+  });
+  it("should accept strings", () => {
+    shouldAccept(func, props, "str");
+    shouldAccept(func.isRequired, props, "str");
+  });
+  it("should accept numbers", () => {
+    shouldAccept(func, props, "num");
+    shouldAccept(func.isRequired, props, "num");
+  });
+  it("should reject boolean true", () => {
+    shouldReject(func, props, "boolTrue");
+    shouldReject(func.isRequired, props, "boolTrue");
+  });
+  it("should reject boolean false", () => {
+    shouldReject(func, props, "boolFalse");
+    shouldReject(func.isRequired, props, "boolFalse");
+  });
+  it("should reject arrays", () => {
+    shouldAccept(func, props, "array");
+    shouldAccept(func.isRequired, props, "array");
+  });
+  it("should reject null", () => {
+    shouldAccept(func, props, "nullValue");
+    shouldAccept(func.isRequired, props, "nullValue");
   });
 });
 

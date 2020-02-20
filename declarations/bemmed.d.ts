@@ -8,7 +8,14 @@ export default class BEM {
 
   constructor(block: string, element?: string, modifier?: string);
 
-  static propType: (props: any, propName: string, componentName: string) => void;
+  static propTypes: {
+    bem: (props: any, propName: string, componentName: string) => void|Error,
+    className: (props: any, propName: string, componentName: string) => void|Error,
+    element: (props: any, propName: string, componentName: string) => void|Error,
+    modifier: (props: any, propName: string, componentName: string) => void|Error,
+  };
+
+  static propType: typeof BEM.propTypes.className;
 
   public concat(...items: Array<BEM | BEMList | string>): BEMList;
 
