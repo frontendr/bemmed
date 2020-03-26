@@ -99,7 +99,7 @@ const Proto = {
    * @returns {BEMList}
    */
   elements(...elements) {
-    return BEMList.from(elements.map(element => this.element(element)));
+    return BEMList.from(elements, this.element, this);
   },
 
   /**
