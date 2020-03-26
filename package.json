@@ -16,6 +16,7 @@
     "css",
     "class"
   ],
+  "sideEffects": false,
   "typings": "declarations/bemmed.d.ts",
   "repository": "https://github.com/frontendr/bemmed",
   "author": "Johan Arensman <info@frontendr.com>",
