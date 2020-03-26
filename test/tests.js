@@ -157,7 +157,7 @@ describe("When setting an element with multiple modifiers", () => {
 });
 
 describe("When creating multiple elements", () => {
-  const block = new BEM("block");
+  const block = new BEM("block", "element", "modifier");
   const elements = block.elements("el1", "el2", "el3");
 
   it("should create a BEMList", () => {
