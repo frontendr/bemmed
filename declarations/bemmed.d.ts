@@ -9,10 +9,10 @@ export default class BEM {
   constructor(block: string, element?: string, modifier?: string);
 
   static propTypes: {
-    bem: (props: any, propName: string, componentName: string) => void|Error,
-    className: (props: any, propName: string, componentName: string) => void|Error,
-    element: (props: any, propName: string, componentName: string) => void|Error,
-    modifier: (props: any, propName: string, componentName: string) => void|Error,
+    bem: (props: any, propName: string, componentName: string) => void | Error;
+    className: (props: any, propName: string, componentName: string) => void | Error;
+    element: (props: any, propName: string, componentName: string) => void | Error;
+    modifier: (props: any, propName: string, componentName: string) => void | Error;
   };
 
   static propType: typeof BEM.propTypes.className;
