@@ -1,4 +1,5 @@
 const assert = require("assert");
+const {describe, it} = require("mocha");
 
 const {BEM, BEMList, setup} = require("../lib/bemmed");
 const DefaultExport = require("../lib/bemmed").default;
