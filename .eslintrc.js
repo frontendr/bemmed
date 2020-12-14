@@ -3,7 +3,7 @@ module.exports = {
   env: {
     browser: false,
     node: true,
-    es6: true
+    es6: true,
   },
   parser: "babel-eslint",
   parserOptions: {
@@ -11,15 +11,15 @@ module.exports = {
     sourceType: "module",
     ecmaFeatures: {
       jsx: true,
-      legacyDecorators: true
-    }
+      legacyDecorators: true,
+    },
   },
   globals: {
     __DEV__: true,
-    __SERVER__: true
+    __SERVER__: true,
   },
   plugins: ["babel", "prettier"],
   rules: {
-    "no-console": 2
-  }
+    "no-console": 2,
+  },
 };

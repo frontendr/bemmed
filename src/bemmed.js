@@ -65,7 +65,7 @@ export class BEMList extends Array {}
  */
 BEMList.prototype.toString = function toString() {
   return this.filter(isValidBEMPart)
-    .map(bem => bem.toString())
+    .map((bem) => bem.toString())
     .join(" ");
 };
 
@@ -99,7 +99,7 @@ const Proto = {
    * @returns {BEMList}
    */
   elements(...elements) {
-    return BEMList.from(elements).map(element => this.element(element));
+    return BEMList.from(elements).map((element) => this.element(element));
   },
 
   /**
@@ -130,7 +130,7 @@ const Proto = {
     const mods = createModifiers(modifiers);
     if (mods.length > 1) {
       return BEMList.from(
-        dedupe(mods).map(m => new this.constructor(this.b, this.e, m))
+        dedupe(mods).map((m) => new this.constructor(this.b, this.e, m))
       );
     }
     return new this.constructor(this.b, this.e, mods[0]);
@@ -144,8 +144,8 @@ const Proto = {
    */
   withMod(...modifiers) {
     const mods = dedupe(modifiers)
-      .map(m => this.modifier(m))
-      .filter(bem => bem instanceof BEMList || !!bem.m);
+      .map((m) => this.modifier(m))
+      .filter((bem) => bem instanceof BEMList || !!bem.m);
     return this.concat(...mods);
   },
 
@@ -164,7 +164,7 @@ const Proto = {
    */
   toString() {
     return this.b + createBEMPart(this.e, this.es) + createBEMPart(this.m, this.ms);
-  }
+  },
 };
 
 /**
@@ -172,7 +172,7 @@ const Proto = {
  */
 Object.assign(Proto, {
   elem: Proto.element,
-  mod: Proto.modifier
+  mod: Proto.modifier,
 });
 
 /**
@@ -322,7 +322,7 @@ function getPropTypes() {
      * PropType for a valid BEM modifier value.
      * @type {function(*, *=, *=): Error|undefined}
      */
-    modifier: getPropType(modifierPropType)
+    modifier: getPropType(modifierPropType),
   };
 }
 
@@ -374,7 +374,7 @@ export function setup(options = {}) {
   BEM.prototype = Object.create(Proto, {
     es: {value: elementSeparator},
     ms: {value: modifierSeparator},
-    constructor: {value: BEM}
+    constructor: {value: BEM},
   });
 
   return BEM;

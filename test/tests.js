@@ -69,7 +69,7 @@ describe("When using an object as modifier", () => {
     "mod-1": 1,
     "mod-object": {},
     "mod-array": [],
-    "mod-false": false
+    "mod-false": false,
   };
   const block = new BEM("block").modifier(modifiers);
 
@@ -86,7 +86,7 @@ describe("When setting multiple modifiers of an instance", () => {
   const blockModifiers = block.modifier("mod1", "mod2");
   const blockModifiedWithObject = block.modifier({
     yes: true,
-    awesome: true
+    awesome: true,
   });
 
   it("should create a BEMList", () => {
@@ -209,12 +209,12 @@ describe("When creating a block *with* a modifier", () => {
   const blockWithAllFalsyModifiers = block.withMod({
     falsy: false,
     nully: null,
-    empty: ""
+    empty: "",
   });
   const blockWithMixedObjectModifiers = block.withMod({
     foo: true,
     bar: true,
-    falsy: false
+    falsy: false,
   });
 
   it("should create a BEMList", () => {
@@ -279,7 +279,7 @@ const props = {
   boolFalse: false,
   nullValue: null,
   array: ["a", "r", "r", "a", "y"],
-  undef: undefined
+  undef: undefined,
 };
 
 describe("BEM.propTypes.bem", () => {

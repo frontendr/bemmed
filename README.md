@@ -34,8 +34,20 @@ function Profile({theme, collapsed, avatar, name}) {
   return (
     <article className={"profile profile--" + theme}>
       <header className="profile__header profile__header--with-avatar profile__header--extra-space">
-        <h2 className={"profile__title" + (collapsed ? " profile__title--small" : "") + (theme === "dark" ? " profile__title--inverted" : "")}>{name}</h2>
-        <figure className={"profile__avatar" + (collapsed ? " profile__avatar--collapsed" : "")}>
+        <h2
+          className={
+            "profile__title" +
+            (collapsed ? " profile__title--small" : "") +
+            (theme === "dark" ? " profile__title--inverted" : "")
+          }
+        >
+          {name}
+        </h2>
+        <figure
+          className={
+            "profile__avatar" + (collapsed ? " profile__avatar--collapsed" : "")
+          }
+        >
           <img src={avatar} alt={name} />
         </figure>
       </header>
@@ -44,6 +56,7 @@ function Profile({theme, collapsed, avatar, name}) {
   );
 }
 ```
+
 Results in 521b of code when transpiled with [babel](https://babeljs.io/repl/#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=GYVwdgxgLglg9mABABQE52DANgUwBQDeUAFjgLY4A0iEcWWAhgA4DOOAJtQwG4NQOpqYBhQC-ASkQEAUIkSocUEKiR5ZcxAB4BsCLhqMWLAHIicAXgIAiJukz7bGbDgC0Lq4gDUiEuRyiAPnUNLVIGdhxUAwYjUwpzGztnAH1ksIiox3scVPTItwB3GBIXHj4BRCyUtJxw_JccAA8oVAYXFiYGCBwrIJCQzWIAJmjYs0tEp1xU2ChcD288WnpmNnZEAH5EDyrp5NncNxYyBnoPAC5tq0lF3wpEc0ft9gEAaw8tnaS9g9cXGDA3EiUA4Fyu4kCBGEYk0AHphn1-nJNJgAObKHCjEzjay7HLJMr8VALRBLOiMVgcTbbSrffGEgRuZYUtZgqzXQLBJFaGBkVGIFioCCWBmoUSIU5QSzQ_yIWGIpFwtEYhUaOF5VCquQAOl1XLhOhgehwARC6nEAG5pKIgA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=es2017%2Creact%2Cstage-2&prettier=false&targets=&version=7.4.3&externalPlugins=)
 and then minified with [terser](https://xem.github.io/terser-online/).
 
@@ -57,15 +70,24 @@ readable or compose the `className`s outside the JSX but I wanted to keep the sa
 of lines in the component between this and the next example:
 
 ### The new way:
+
 ```jsx harmony
 // we can pre-initialize the classes used in this component, we don't have to but we can.
-const [profileCls, headerCls, titleCls, avatarCls] = new BEM("profile").withElem("header", "title", "avatar");
+const [profileCls, headerCls, titleCls, avatarCls] = new BEM("profile").withElem(
+  "header",
+  "title",
+  "avatar"
+);
 
 function Profile({theme, collapsed, avatar, name}) {
   return (
     <article className={profileCls}>
       <header className={headerCls.withMod("with-avatar", "extra-space")}>
-        <h2 className={titleCls.withMod({small: collapsed, inverted: theme === "dark"})}>{name}</h2>
+        <h2
+          className={titleCls.withMod({small: collapsed, inverted: theme === "dark"})}
+        >
+          {name}
+        </h2>
         <figure className={avatarCls.withMod({collapsed})}>
           <img src={avatar} alt={name} />
         </figure>
@@ -75,10 +97,11 @@ function Profile({theme, collapsed, avatar, name}) {
   );
 }
 ```
+
 Results in 452b of code when transpiled with [babel](https://babeljs.io/repl/#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=MYewdgzgLgBA2gBwE4gGYEsA2BTAwpiAGhgAtsBDAE2yXyJinShzuPIDdypzaCBdGAF4YYbAHcYAIQCiAWQAUAImRos2RQEoAdGKYlpOALZKyVGouKLGzdZY5cemgNwAoF6gCuYYI3AwACigYOPIA3lBkhtjEoJiY5AgQ2JRsnNxIxGDkUQC-GjChLjAwSNhQHkhgMPJFxTAAPDyMwDgwLeQQEABy2diCoSrBeAQ5AHy1dQ2m1Eht8Z09Uf3TNHQ6erIglEq6EQC09ukWMIrYAB5QSOR7EAjkwOoaYxOTUwBMcx3dvf3WLATrCKbbahCCGchxABcbRAcQSSRSMHQYHYNCgyWhEWwUSEgmEikoPAA1oo8mNQllcvUAPQkN7jV51eoYADmFWwnwWP1Chx4a12JGBYVi8USyTJDMZTPQhhZMAgSGA_V5SByMAhUH6lOwaupksZNNZ7P1TNpFBmJuKWmtLxpTXQLWwko0rhyQA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=es2017%2Creact%2Cstage-2&prettier=false&targets=Node-11&version=7.4.3&externalPlugins=)
 and then minified with [terser](https://xem.github.io/terser-online/).
 
-That's 69 bytes (-14%) *and* we gained the ability to reuse the classes allowing even
+That's 69 bytes (-14%) _and_ we gained the ability to reuse the classes allowing even
 greater benefits.
 
 As you can see in the example above, there is **no** repetition. The className variables
@@ -93,22 +116,25 @@ props.
 - ✅ `BEM` methods are plain or short english, no letters.
 - ✅ Methods to ease the creation of multiple classes without duplication.
 - ✅ Arguments are passed in a consistent way without specific syntax requirements such
-     as `$dollar` variables.
+  as `$dollar` variables.
 - ✅ `BEM` or `BEMList` instances can be converted to a string by simply concatenating
-     them with a string or just calling `.toString()` like any other JavaScript object.
+  them with a string or just calling `.toString()` like any other JavaScript object.
 - ✅ Adding multiple modifiers, requesting the base _with_ an element or modifier or
-     concatenating it results in a `BEMList` which is a subclass of `Array` and renders
-     as proper CSS classes separated by a space character.
+  concatenating it results in a `BEMList` which is a subclass of `Array` and renders
+  as proper CSS classes separated by a space character.
 - ✅️ Acts like `block__element--modifier` by default.
 - ✅ The separators can be changed by creating a new class using `setup()`.
 
 ## Usage
 
 Importing in ES6:
+
 ```js
 import BEM from "bemmed";
 ```
+
 or in CommonJS:
+
 ```js
 // require the named export:
 const {BEM} = require("bemmed");
@@ -134,7 +160,7 @@ cls.toString();
 //=> "block__element--modifier"
 
 // Use in JSX:
-<div className={cls}>x</div>
+<div className={cls}>x</div>;
 //=> <div class="block__element--modifier">x</div>
 
 // Just a block
@@ -159,11 +185,13 @@ String(cls.mod("mod-a", "mod-b", "mod-c"));
 //=> "block__element--mod-a block__element--mod-b block__element--mod-c"
 
 // Modify using an object, only keys of truthy values are applied:
-String(cls.mod({
-  foo: true,
-  bar: false,
-  "foo-bar": "yes"
-}));
+String(
+  cls.mod({
+    foo: true,
+    bar: false,
+    "foo-bar": "yes",
+  })
+);
 //=> "block__element--foo block__element--foo-bar"
 
 // Set element
@@ -188,19 +216,22 @@ String(footer);
 //=> "block__footer"
 
 // Concatenate with multiple strings, Array's, BEM instances or BEMList's
-String(new BEM("block").concat(
-  "just-a-string", // String
-  new BEM("b", "e", "m"), // BEM instance
-  new BEM("foo").withMod('bar') // BEMList
-));
+String(
+  new BEM("block").concat(
+    "just-a-string", // String
+    new BEM("b", "e", "m"), // BEM instance
+    new BEM("foo").withMod("bar") // BEMList
+  )
+);
 //=> "block just-a-string b__e--m foo foo--bar"
 
 // Create a custom class with modified separators using the setup function.
 import {setup} from "bemmed";
 
-const UnderBEM = setup({ // or just name it `BEM`.
+const UnderBEM = setup({
+  // or just name it `BEM`.
   elementSeparator: "_",
-  modifierSeparator: "__"
+  modifierSeparator: "__",
 });
 new UnderBEM("block", "element", "modifier").toString();
 //=> "block_element__modifier"
@@ -213,6 +244,7 @@ new UnderBEM("block", "element", "modifier").toString();
 ### Creating a new instance
 
 Create a new instance. Usually only with a block
+
 ```
 const cls = new BEM(block: string[ element: string[ modifier: string]]): BEM
 ```
@@ -221,6 +253,7 @@ const cls = new BEM(block: string[ element: string[ modifier: string]]): BEM
 
 Using the `element()` (or `elem()` alias) method returns a new `BEM` instance with the
 provided element part.
+
 ```
 cls.element(element: string): BEM
 cls.elem(element: string): BEM
@@ -228,6 +261,7 @@ cls.elem(element: string): BEM
 
 Using the `modifier()` (or `mod()` alias) method returns a new `BEM` instance with the
 provided modifier part.
+
 ```
 cls.modifier(modifier: string): BEM
 cls.mod(modifier: string): BEM
@@ -262,10 +296,12 @@ cls.withMod(...modifiers: string|Object): BEMList
 ```
 
 ```js
-new BEM("block").withMod("always-add-this", {
-  "and-this": true,
-  "but-not-this": false
-}).toString()
+new BEM("block")
+  .withMod("always-add-this", {
+    "and-this": true,
+    "but-not-this": false,
+  })
+  .toString();
 //=> "block block--always-add-this block--and-this"
 ```
 
@@ -296,7 +332,9 @@ cls.concat(...items: any): BEMList
 ```
 
 ```js
-new BEM("b1").concat(new BEM("b2"), "just-a-string", ["array", "of", "items"]).toString();
+new BEM("b1")
+  .concat(new BEM("b2"), "just-a-string", ["array", "of", "items"])
+  .toString();
 // => "b1 b2 just-a-string array of items"
 ```
 
@@ -306,10 +344,10 @@ Use the `setup()` function to create a customized BEM class.
 
 The function takes an object literal which can contain the following properties:
 
- Property            | Default | Description
----------------------|---------|--------------------------------------------------------
- `elementSeparator`  | `"__"`  | Separator string between the block and element part.
- `modifierSeparator` | `"--"`  | Separator string between the element and modifier part.
+| Property            | Default | Description                                             |
+| ------------------- | ------- | ------------------------------------------------------- |
+| `elementSeparator`  | `"__"`  | Separator string between the block and element part.    |
+| `modifierSeparator` | `"--"`  | Separator string between the element and modifier part. |
 
 Create a module in your project e.g. `utils/bem.js`.
 
@@ -317,7 +355,7 @@ Create a module in your project e.g. `utils/bem.js`.
 import {setup} from "bemmed";
 export const BEM = setup({
   elementSeparator: "_",
-  modifierSeparator: "__"
+  modifierSeparator: "__",
 });
 
 // This would produce classes like "block_element__modifier"
@@ -331,28 +369,32 @@ import {BEM} from "./utils/bem";
 ```
 
 ## PropTypes
+
 `BEM` provides several [PropTypes](https://www.npmjs.com/package/prop-types) to ease the
 usage with libraries such as React. All propTypes also support an `.isRequired` property
 to allow `undefined` values.
 
-PropType                  | Description
-------------------------- | ----------------------------------
-`BEM.propTypes.bem`       | Valid `BEM` or `BEMList` instances.
-`BEM.propTypes.className` | Utility PropType for checking any valid value which can be used in a `className` attribute in `JSX` (including `BEM` or `BEMList` instances).
-`BEM.propTypes.element`   | Valid value for `BEM.element()`.
-`BEM.propTypes.modifier`  | Valid value for `BEM.modifier()`.
+| PropType                  | Description                                                                                                                                   |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `BEM.propTypes.bem`       | Valid `BEM` or `BEMList` instances.                                                                                                           |
+| `BEM.propTypes.className` | Utility PropType for checking any valid value which can be used in a `className` attribute in `JSX` (including `BEM` or `BEMList` instances). |
+| `BEM.propTypes.element`   | Valid value for `BEM.element()`.                                                                                                              |
+| `BEM.propTypes.modifier`  | Valid value for `BEM.modifier()`.                                                                                                             |
 
 ## FAQ
 
 ### Why bother, doesn't gzip solve this already?
+
 Yes it does help in some cases but it can never yield the same results and does not give
 any of the benefits such as reusable objects, readability and ease of development.
 
 ### Improved readability? I find it harder to read
+
 I can imagine never seeing a fully written `className` can be harder to read at first
 but I got used to it quite fast.
 
 ### But now my IDE can't find the usages of a specific class!
+
 True, but are your classes that scattered throughout your application? And if that's
 the case then reusing a `BEM` instance for that class could help you by simply looking
 for the usages for that instance instead of searching for the css class.
