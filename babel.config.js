@@ -1,4 +1,4 @@
-module.exports = function(api) {
+module.exports = function (api) {
   api.cache(true);
 
   const presets = [
@@ -7,17 +7,23 @@ module.exports = function(api) {
       {
         // targets: ">= 0.25%, not dead"
         targets: {
-          node: "current"
-        }
-      }
-    ]
+          node: "current",
+        },
+      },
+    ],
   ];
   const plugins = [];
+  const comments = false;
+
+  function shouldPrintComment(comment) {
+    return /^#/.test(comment.trim());
+  }
 
   return {
-    comments: false,
-    compact: true,
+    shouldPrintComment,
+    minified: true,
+    comments,
     presets,
-    plugins
+    plugins,
   };
 };

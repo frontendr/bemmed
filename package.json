@@ -1,37 +1,43 @@
 {
   "name": "bemmed",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "BEM class name composer.",
   "main": "lib/bemmed.js",
   "scripts": {
     "build": "babel src --out-dir lib",
+    "prepublish": "npm run build",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "prettier": "prettier --write ./{declarations,src,test}/**/*.{js,d.ts}",
+    "prettier": "prettier --write './(declarations|src|test)/**/*.(js|d.ts)'",
     "test": "eslint . && nyc npm run test:unit",
     "test:unit": "mocha"
   },
   "keywords": [
     "bem",
     "css",
-    "class"
+    "class",
+    "composer",
+    "block",
+    "element",
+    "modifier"
   ],
+  "sideEffects": false,
   "typings": "declarations/bemmed.d.ts",
   "repository": "https://github.com/frontendr/bemmed",
   "author": "Johan Arensman <info@frontendr.com>",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
-    "babel-eslint": "^10.0.3",
-    "coveralls": "^3.0.9",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "mocha": "^7.0.1",
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.10",
+    "babel-eslint": "^10.1.0",
+    "coveralls": "^3.1.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-prettier": "^3.3.0",
+    "mocha": "^8.2.1",
     "mocha-lcov-reporter": "^1.3.0",
-    "nyc": "^15.0.0",
-    "prettier": "^1.19.1"
+    "nyc": "^15.1.0",
+    "prettier": "^2.2.1"
   }
 }

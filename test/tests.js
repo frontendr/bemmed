@@ -1,4 +1,5 @@
 const assert = require("assert");
+const {describe, it} = require("mocha");
 
 const {BEM, BEMList, setup} = require("../lib/bemmed");
 const DefaultExport = require("../lib/bemmed").default;
@@ -68,7 +69,7 @@ describe("When using an object as modifier", () => {
     "mod-1": 1,
     "mod-object": {},
     "mod-array": [],
-    "mod-false": false
+    "mod-false": false,
   };
   const block = new BEM("block").modifier(modifiers);
 
@@ -85,7 +86,7 @@ describe("When setting multiple modifiers of an instance", () => {
   const blockModifiers = block.modifier("mod1", "mod2");
   const blockModifiedWithObject = block.modifier({
     yes: true,
-    awesome: true
+    awesome: true,
   });
 
   it("should create a BEMList", () => {
@@ -156,7 +157,7 @@ describe("When setting an element with multiple modifiers", () => {
 });
 
 describe("When creating multiple elements", () => {
-  const block = new BEM("block");
+  const block = new BEM("block", "element", "modifier");
   const elements = block.elements("el1", "el2", "el3");
 
   it("should create a BEMList", () => {
@@ -208,12 +209,12 @@ describe("When creating a block *with* a modifier", () => {
   const blockWithAllFalsyModifiers = block.withMod({
     falsy: false,
     nully: null,
-    empty: ""
+    empty: "",
   });
   const blockWithMixedObjectModifiers = block.withMod({
     foo: true,
     bar: true,
-    falsy: false
+    falsy: false,
   });
 
   it("should create a BEMList", () => {
@@ -278,7 +279,7 @@ const props = {
   boolFalse: false,
   nullValue: null,
   array: ["a", "r", "r", "a", "y"],
-  undef: undefined
+  undef: undefined,
 };
 
 describe("BEM.propTypes.bem", () => {
