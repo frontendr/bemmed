@@ -1,6 +1,6 @@
 {
   "name": "bemmed",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "BEM class name composer.",
   "main": "lib/bemmed.js",
   "scripts": {
