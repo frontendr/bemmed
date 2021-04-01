@@ -194,10 +194,15 @@ String(
 );
 //=> "block__element--foo block__element--foo-bar"
 
-// Set element
+// New instance with another element
 const newElement = cls.element("el2"); // aliased as elem()
 String(newElement);
 //=> "block__el2--modifier"
+
+// New instance with another element and modifiers
+const newElementWithMod = cls.element("el3", "modifier");
+String(newElementWithMod);
+//=> "block__el3 block__el3--modifier"
 
 // Combine the class with a modified variant
 const withMod = new BEM("block", "element").withMod("modifier");
@@ -252,19 +257,20 @@ const cls = new BEM(block: string[ element: string[ modifier: string]]): BEM
 ### Setting the element or modifier parts
 
 Using the `element()` (or `elem()` alias) method returns a new `BEM` instance with the
-provided element part.
+provided element part. When any modifiers are also provided a `BEMList` is returned as
+if `.withMod()` was used after adding the element.
 
 ```
-cls.element(element: string): BEM
-cls.elem(element: string): BEM
+cls.element(element: string, ...modifiers: string): BEM|BEMList
+cls.elem(element: string, ...modifiers: string): BEM|BEMList
 ```
 
 Using the `modifier()` (or `mod()` alias) method returns a new `BEM` instance with the
-provided modifier part.
+provided modifier part. When multiple modifiers are given a `BEMList` is returned.
 
 ```
-cls.modifier(modifier: string): BEM
-cls.mod(modifier: string): BEM
+cls.modifier(...modifiers: string): BEM|BEMList
+cls.mod(...modifiers: string): BEM|BEMList
 ```
 
 ### Adding an element
@@ -385,12 +391,12 @@ to allow `undefined` values.
 
 ### Why bother, doesn't gzip solve this already?
 
-Yes it does help in some cases but it can never yield the same results and does not give
-any of the benefits such as reusable objects, readability and ease of development.
+Yes it does help in some cases, but it can never yield the same results and does not
+give any of the benefits such as reusable objects, readability and ease of development.
 
 ### Improved readability? I find it harder to read
 
-I can imagine never seeing a fully written `className` can be harder to read at first
+I can imagine never seeing a fully written `className` can be harder to read at first,
 but I got used to it quite fast.
 
 ### But now my IDE can't find the usages of a specific class!
