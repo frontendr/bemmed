@@ -70,6 +70,15 @@ BEMList.prototype.toString = function toString() {
 };
 
 /**
+ * Returns a BEMList of this instance with the given items
+ * @param {...BEM|BEMList|string} items
+ * @return {*[]}
+ */
+BEMList.prototype.concat = function concat(...items) {
+  return Array.prototype.concat.call(this, ...dedupe(items));
+};
+
+/**
  * BEM class prototype
  */
 const Proto = {

@@ -485,6 +485,12 @@ describe("When working with a BEMList", () => {
     const concatenated = list.concat("c");
     assert.strictEqual(concatenated instanceof BEMList, true);
   });
+
+  it("should remove any duplicates when using concat()", () => {
+    const list = BEMList.from(["a", "b"]);
+    const concatenated = list.concat("c", "a", "a");
+    assert.strictEqual(concatenated.toString(), "a b c a");
+  });
 });
 
 describe("When the default export", () => {

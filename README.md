@@ -331,7 +331,9 @@ new BEM("block").elements("foo", "bar").toString();
 ### Combining or concatenating classes
 
 Same method as [`Array.concat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat).
-Returns a new `BEMList` with the items appended. Remember: Array's are flattened!
+Returns a new `BEMList` with the items appended. Remember: Arrays are flattened! Also
+removes any duplicates from the given arguments and works on both `BEM` and `BEMList`
+instances.
 
 ```
 cls.concat(...items: any): BEMList
