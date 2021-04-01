@@ -25,6 +25,10 @@ describe("When setting the element of an instance", () => {
   const block = new BEM("block");
   const blockElement = block.element("element");
 
+  it("should create a BEM instance", () => {
+    assert.strictEqual(blockElement instanceof BEM, true);
+  });
+
   it("should create a new instance", () => {
     assert.notStrictEqual(block, blockElement);
   });
@@ -44,6 +48,10 @@ describe("When setting the modifier of an instance", () => {
 
   it("should create a new instance", () => {
     assert.notStrictEqual(block, blockModifier);
+  });
+
+  it("should create a BEM instance", () => {
+    assert.strictEqual(blockModifier instanceof BEM, true);
   });
 
   it("should change the element part", () => {
@@ -72,6 +80,10 @@ describe("When using an object as modifier", () => {
     "mod-false": false,
   };
   const block = new BEM("block").modifier(modifiers);
+
+  it("should create a BEMList instance", () => {
+    assert.strictEqual(block instanceof BEMList, true);
+  });
 
   it("should use all keys with a truthy value as modifiers", () => {
     assert.strictEqual(
@@ -107,7 +119,7 @@ describe("When setting multiple modifiers of an instance", () => {
 });
 
 describe("When setting both the element and modifier of an instance", () => {
-  const block = new BEM("block");
+  const block = new BEM("block", "old-element");
   const blockElementModifier = block.element("element", "modifier");
 
   it("should create a BEMList", () => {
@@ -123,6 +135,10 @@ describe("When setting both the element and modifier of an instance", () => {
       blockElementModifier.toString(),
       "block__element block__element--modifier"
     );
+  });
+
+  it("should not modify the original instance", () => {
+    assert.strictEqual(block.toString(), "block__old-element");
   });
 });
 
@@ -479,9 +495,13 @@ describe("When the default export", () => {
 
 describe("When changing separators using setup()", () => {
   const CustomBEM = setup({elementSeparator: "~", modifierSeparator: "~~"});
+  const cls = new CustomBEM("block", "element", "modifier");
+
+  it("should be an instance of CustomBEM", () => {
+    assert.strictEqual(cls instanceof CustomBEM, true);
+  });
 
   it("should generate a class with custom separators", () => {
-    const cls = new CustomBEM("block", "element", "modifier");
     assert.strictEqual(cls.toString(), "block~element~~modifier");
   });
 
