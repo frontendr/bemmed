@@ -1,7 +1,9 @@
+os:
+  - linux
+dist: xenial
 language: node_js
 node_js:
   - stable
-sudo: false
 cache:
   directories:
     - node_modules
