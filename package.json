@@ -30,7 +30,7 @@
     "modifier"
   ],
   "sideEffects": false,
-  "typings": "declarations/bemmed.d.ts",
+  "typings": "types/bemmed.d.ts",
   "author": "Johan Arensman <info@frontendr.com>",
   "repository": "https://github.com/frontendr/bemmed",
   "homepage": "https://github.com/frontendr/bemmed",
