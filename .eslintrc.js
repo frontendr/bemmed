@@ -16,7 +16,7 @@ module.exports = {
     __DEV__: true,
     __SERVER__: true,
   },
-  plugins: ["babel", "prettier"],
+  plugins: ["prettier"],
   rules: {
     "no-console": 2,
   },

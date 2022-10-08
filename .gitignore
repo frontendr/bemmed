@@ -7,6 +7,8 @@
 .DS_Store
 
 # (By) products
+/dist
+/es
 /lib
 *.log
 
