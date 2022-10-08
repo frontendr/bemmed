@@ -17,13 +17,12 @@ npm install bemmed
 
 ## The problem solved
 
-When using BEM notation there usually is a lot of repetition. The name of the block gets
-repeated for every element and when a modifier is applied it is not uncommon that the
+Using BEM notation usually involves a lot of repetition. The name of the block gets
+repeated for every element and when adding a modifier, it is not uncommon that the
 `className` of an element gets quite long and unwieldy.
 
-The goal of this package is to be able to create a reusable object which is used to
-build every possible BEM class we want but only having to type each part of that class
-only once.
+The goal of this package is to be able to create a reusable object which can be used to
+build every possible BEM class we want without any repetition of its parts.
 
 ### The old way:
 
@@ -60,14 +59,14 @@ function Profile({theme, collapsed, avatar, name}) {
 Results in 521b of code when transpiled with [babel](https://babeljs.io/repl/#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=GYVwdgxgLglg9mABABQE52DANgUwBQDeUAFjgLY4A0iEcWWAhgA4DOOAJtQwG4NQOpqYBhQC-ASkQEAUIkSocUEKiR5ZcxAB4BsCLhqMWLAHIicAXgIAiJukz7bGbDgC0Lq4gDUiEuRyiAPnUNLVIGdhxUAwYjUwpzGztnAH1ksIiox3scVPTItwB3GBIXHj4BRCyUtJxw_JccAA8oVAYXFiYGCBwrIJCQzWIAJmjYs0tEp1xU2ChcD288WnpmNnZEAH5EDyrp5NncNxYyBnoPAC5tq0lF3wpEc0ft9gEAaw8tnaS9g9cXGDA3EiUA4Fyu4kCBGEYk0AHphn1-nJNJgAObKHCjEzjay7HLJMr8VALRBLOiMVgcTbbSrffGEgRuZYUtZgqzXQLBJFaGBkVGIFioCCWBmoUSIU5QSzQ_yIWGIpFwtEYhUaOF5VCquQAOl1XLhOhgehwARC6nEAG5pKIgA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=es2017%2Creact%2Cstage-2&prettier=false&targets=&version=7.4.3&externalPlugins=)
 and then minified with [terser](https://xem.github.io/terser-online/).
 
-This is not an uncommon pattern. Ok, some of the modifiers are a bit weird but we've all
-seen worse right? As you can see there is quite a lot of repetition. The word `profile`
+This is not an uncommon pattern. Ok, some modifiers are a bit weird, but we've all
+seen worse right? As you can see, there is quite a lot of repetition. The word `profile`
 is used 10 times in `className` attributes, not to mention the `header`, `title` and
 `avatar` elements.
 
 Usually I would add newlines inside the `className` to make the ternary operators more
-readable or compose the `className`s outside the JSX but I wanted to keep the same amount
-of lines in the component between this and the next example:
+readable or compose the `className`s outside the JSX, but we want roughly the same
+number of lines in both examples.
 
 ### The new way:
 
@@ -105,25 +104,26 @@ That's 69 bytes (-14%) _and_ we gained the ability to reuse the classes allowing
 greater benefits.
 
 As you can see in the example above, there is **no** repetition. The className variables
-can be easily minified and mangled. Each `BEM` instance stays reusable so it can be
-modified later as you can see when we use `withMod` inside the component based on it's
+can be easily minified and mangled. Each `BEM` instance stays reusable, so it can be
+modified later which you can see when we use `withMod` inside the component based on its
 props.
 
 ## Features
 
-- ✅ 1.681kB minified / 726B minified+gzipped
+- ✅ 1.681 kB minified / 726 B minified+gzipped
 - ✅ `BEM` instances are reusable and can be modified.
 - ✅ `BEM` methods are plain or short english, no letters.
 - ✅ Methods to ease the creation of multiple classes without duplication.
-- ✅ Arguments are passed in a consistent way without specific syntax requirements such
+- ✅ Arguments can be passed consistently without specific syntax requirements such
   as `$dollar` variables.
 - ✅ `BEM` or `BEMList` instances can be converted to a string by simply concatenating
   them with a string or just calling `.toString()` like any other JavaScript object.
 - ✅ Adding multiple modifiers, requesting the base _with_ an element or modifier or
-  concatenating it results in a `BEMList` which is a subclass of `Array` and renders
+  concatenating it results in a `BEMList`. This is a subclass of `Array` and renders
   as proper CSS classes separated by a space character.
 - ✅️ Acts like `block__element--modifier` by default.
-- ✅ The separators can be changed by creating a new class using `setup()`.
+- ✅ The separators (`__` and `--`) can be changed by creating a new class using the
+  `setup()` function.
 
 ## Usage
 
@@ -143,7 +143,7 @@ const {BEM} = require("bemmed");
 const BEM = require("bemmed").default;
 ```
 
-By example:
+Example usage:
 
 ```jsx harmony
 const cls = new BEM("block", "element", "modifier");
@@ -257,8 +257,8 @@ const cls = new BEM(block: string[ element: string[ modifier: string]]): BEM
 ### Setting the element or modifier parts
 
 Using the `element()` (or `elem()` alias) method returns a new `BEM` instance with the
-provided element part. When any modifiers are also provided a `BEMList` is returned as
-if `.withMod()` was used after adding the element.
+provided element part. When adding modifiers, a `BEMList` is returned as if `.withMod()`
+was used after adding the element.
 
 ```
 cls.element(element: string, ...modifiers: string): BEM|BEMList
@@ -266,7 +266,7 @@ cls.elem(element: string, ...modifiers: string): BEM|BEMList
 ```
 
 Using the `modifier()` (or `mod()` alias) method returns a new `BEM` instance with the
-provided modifier part. When multiple modifiers are given a `BEMList` is returned.
+provided modifier part. When given multiple modifiers, a `BEMList` is returned.
 
 ```
 cls.modifier(...modifiers: string): BEM|BEMList
@@ -311,7 +311,7 @@ new BEM("block")
 //=> "block block--always-add-this block--and-this"
 ```
 
-A `BEMList` is just a subclass of `Array` with a modified `toString()` method so it
+A `BEMList` is just a subclass of `Array` with a modified `toString()` method, so it
 renders as a proper `className` with spaces between the classes.
 
 ### Creating multiple elements
@@ -331,9 +331,9 @@ new BEM("block").elements("foo", "bar").toString();
 ### Combining or concatenating classes
 
 Same method as [`Array.concat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat).
-Returns a new `BEMList` with the items appended. Remember: Arrays are flattened! Also
-removes any duplicates from the given arguments and works on both `BEM` and `BEMList`
-instances.
+Returns a new `BEMList` with the items appended. Remember: Arrays will be flattened!
+Also removes any duplicates from the given arguments and works on both `BEM` and
+`BEMList` instances.
 
 ```
 cls.concat(...items: any): BEMList
@@ -399,13 +399,14 @@ give any of the benefits such as reusable objects, readability and ease of devel
 ### Improved readability? I find it harder to read
 
 I can imagine never seeing a fully written `className` can be harder to read at first,
-but I got used to it quite fast.
+but I got used to it quite fast. The habit of destructuring `BEM` element classes into
+separate variables makes it more clear what each `className` is for.
 
-### But now my IDE can't find the usages of a specific class!
+### Now my IDE can't find the usages of a specific class!
 
-True, but are your classes that scattered throughout your application? And if that's
+True, but are your classes that scattered throughout your application? Also, if that's
 the case then reusing a `BEM` instance for that class could help you by simply looking
-for the usages for that instance instead of searching for the css class.
+for the usages for that instance instead of searching for the css class string.
 
 ## Developing
 

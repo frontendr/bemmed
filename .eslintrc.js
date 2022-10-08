@@ -5,10 +5,8 @@ module.exports = {
     node: true,
     es6: true,
   },
-  parser: "babel-eslint",
+  parser: "@babel/eslint-parser",
   parserOptions: {
-    ecmaVersion: 6,
-    sourceType: "module",
     ecmaFeatures: {
       jsx: true,
       legacyDecorators: true,
@@ -18,7 +16,7 @@ module.exports = {
     __DEV__: true,
     __SERVER__: true,
   },
-  plugins: ["babel", "prettier"],
+  plugins: ["prettier"],
   rules: {
     "no-console": 2,
   },
