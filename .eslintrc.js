@@ -1,11 +1,12 @@
 module.exports = {
-  extends: ["plugin:prettier/recommended"],
+  root: true,
+  extends: ["prettier", "plugin:@typescript-eslint/recommended"],
   env: {
     browser: false,
     node: true,
     es6: true,
   },
-  parser: "@babel/eslint-parser",
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -16,7 +17,7 @@ module.exports = {
     __DEV__: true,
     __SERVER__: true,
   },
-  plugins: ["prettier"],
+  plugins: ["@typescript-eslint"],
   rules: {
     "no-console": 2,
   },

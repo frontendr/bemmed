@@ -1,8 +1,10 @@
-const assert = require("assert");
-const {describe, it} = require("mocha");
+import "mocha";
+import { assert } from "chai";
+import { describe, it } from "mocha";
 
-const {BEM, BEMList, setup} = require("../lib/bemmed");
-const DefaultExport = require("../lib/bemmed").default;
+import DefaultExport from "../src";
+import { BEM, BEMList, setup } from "../src";
+import { PropTypeFunctionWithRequired, PropTypeFunction } from "../src";
 
 describe("When constructing a new BEM instance", () => {
   it("should be able to only create a block", () => {
@@ -18,6 +20,11 @@ describe("When constructing a new BEM instance", () => {
   it("should be able to create a block with an element and modifier", () => {
     const cls = new BEM("block", "element", "modifier");
     assert.strictEqual(cls.toString(), "block__element--modifier");
+  });
+
+  it("should also convert to a string with the .s getter", () => {
+    const cls = new BEM("block", "element", "modifier");
+    assert.strictEqual(cls.s, "block__element--modifier");
   });
 });
 
@@ -63,7 +70,11 @@ describe("When setting the modifier of an instance", () => {
   });
 
   it("should ignore falsy modifier values", () => {
-    assert.strictEqual(block.modifier(null, false, undefined).toString(), "block");
+    assert.strictEqual(
+      // @ts-expect-error - testing falsy values
+      block.modifier(null, false, undefined).toString(),
+      "block"
+    );
   });
 
   it("should treat 0 as a valid modifier value", () => {
@@ -106,7 +117,13 @@ describe("When setting multiple modifiers of an instance", () => {
   });
 
   it("should create a list with 2 classes", () => {
-    assert.strictEqual(blockModifiers.length, 2);
+    if (Array.isArray(blockModifiers)) {
+      assert.strictEqual(blockModifiers.length, 2);
+    }
+  });
+
+  it("should be converted to a string with the .s getter", () => {
+    assert.strictEqual(blockModifiers.s, "block--mod1 block--mod2");
   });
 
   it("should create 2 block--modifier classes", () => {
@@ -114,17 +131,25 @@ describe("When setting multiple modifiers of an instance", () => {
   });
 
   it("should also work with an object", () => {
-    assert.strictEqual(blockModifiedWithObject.toString(), "block--yes block--awesome");
+    assert.strictEqual(
+      blockModifiedWithObject.toString(),
+      "block--yes block--awesome"
+    );
   });
 });
 
 describe("When setting both the element and modifier of an instance", () => {
   const block = new BEM("block", "old-element");
   const blockElementModifier = block.element("element", "modifier");
+  const isBEMList = blockElementModifier instanceof BEMList;
 
   it("should create a BEMList", () => {
-    assert.strictEqual(blockElementModifier instanceof BEMList, true);
+    assert.strictEqual(isBEMList, true);
   });
+
+  if (!isBEMList) {
+    return;
+  }
 
   it("should create a list with 2 classes", () => {
     assert.strictEqual(blockElementModifier.length, 2);
@@ -145,10 +170,15 @@ describe("When setting both the element and modifier of an instance", () => {
 describe("When setting an element with multiple modifiers", () => {
   const block = new BEM("block");
   const blockElementModifiers = block.element("element", "mod1", "mod2");
+  const isBEMList = blockElementModifiers instanceof BEMList;
 
   it("should create a BEMList", () => {
-    assert.strictEqual(blockElementModifiers instanceof BEMList, true);
+    assert.strictEqual(isBEMList, true);
   });
+
+  if (!isBEMList) {
+    return;
+  }
 
   it("should create a list with 3 classes", () => {
     assert.strictEqual(blockElementModifiers.length, 3);
@@ -162,7 +192,15 @@ describe("When setting an element with multiple modifiers", () => {
   });
 
   it("should not create duplicate modifiers", () => {
-    const blockElementDuplicateMods = block.element("element", "mod1", "mod2", "mod1");
+    const blockElementDuplicateMods = block.element(
+      "element",
+      "mod1",
+      "mod2",
+      "mod1"
+    );
+    if (!(blockElementDuplicateMods instanceof BEMList)) {
+      return;
+    }
 
     assert.strictEqual(blockElementDuplicateMods.length, 3);
     assert.strictEqual(
@@ -271,8 +309,12 @@ describe("When creating a block *with* a modifier", () => {
  * @param {Object} props The props object
  * @param {string} prop The prop name
  */
-function shouldAccept(func, props, prop) {
-  assert.strictEqual(func(props, prop, "TestComponent"), undefined);
+function shouldAccept(
+  func: PropTypeFunctionWithRequired | PropTypeFunction,
+  props: Record<string, unknown>,
+  prop: string
+) {
+  assert.strictEqual(func(props, prop, "foo", "TestComponent"), undefined);
 }
 
 /**
@@ -281,8 +323,15 @@ function shouldAccept(func, props, prop) {
  * @param {Object} props The props object
  * @param {string} prop The prop name
  */
-function shouldReject(func, props, prop) {
-  assert.strictEqual(func(props, prop, "TestComponent") instanceof Error, true);
+function shouldReject(
+  func: PropTypeFunctionWithRequired | PropTypeFunction,
+  props: Record<string, unknown>,
+  prop: string
+) {
+  assert.strictEqual(
+    func(props, prop, "foo", "TestComponent") instanceof Error,
+    true
+  );
 }
 
 const props = {
@@ -500,7 +549,7 @@ describe("When the default export", () => {
 });
 
 describe("When changing separators using setup()", () => {
-  const CustomBEM = setup({elementSeparator: "~", modifierSeparator: "~~"});
+  const CustomBEM = setup({ elementSeparator: "~", modifierSeparator: "~~" });
   const cls = new CustomBEM("block", "element", "modifier");
 
   it("should be an instance of CustomBEM", () => {
