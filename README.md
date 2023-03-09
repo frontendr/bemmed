@@ -109,14 +109,15 @@ props.
 
 ## Features
 
-- ✅ 1.681 kB minified / 726 B minified+gzipped
+- ✅ 1.8 kB minified / 837 B minified+gzipped (see: [Bundlephobia](https://bundlephobia.com/package/bemmed) for the latest numbers)
 - ✅ `BEM` instances are reusable and can be modified.
 - ✅ `BEM` methods are plain or short english, no letters.
 - ✅ Methods to ease the creation of multiple classes without duplication.
 - ✅ Arguments can be passed consistently without specific syntax requirements such
   as `$dollar` variables.
 - ✅ `BEM` or `BEMList` instances can be converted to a string by simply concatenating
-  them with a string or just calling `.toString()` like any other JavaScript object.
+  them with a string, using their `.s` property or just calling `.toString()`
+  like any other JavaScript object.
 - ✅ Adding multiple modifiers, requesting the base _with_ an element or modifier or
   concatenating it results in a `BEMList`. This is a subclass of `Array` and renders
   as proper CSS classes separated by a space character.
@@ -139,7 +140,7 @@ or in CommonJS:
 const {BEM} = require("bemmed");
 
 // or as default:
-const BEM = require("bemmed").default;
+const BEM = require("bemmed");
 ```
 
 Example usage:
@@ -361,7 +362,9 @@ cls.s;
 //=> "block__element--modifier"
 ```
 
-The `s` getter is a shorthand for `toString()` and is especially useful in JSX.
+The `s` getter is a shorthand for `toString()` and is especially useful if
+using a BEM instance causes inspection errors. Although most projects don't mind
+a BEM instance as a value for `className` at all.
 
 ```jsx
 const cls = new BEM("block", "element", "modifier");
@@ -436,6 +439,15 @@ I can imagine never seeing a fully written `className` can be harder to read at 
 but I got used to it quite fast. The habit of destructuring `BEM` element classes into
 separate variables makes it more clear what each `className` is for.
 
+For example, I find `className={titleClass.withMod({inverted: myInvertedState})}` much
+easier to read than `className={"header__title" + (myInvertedState ? " header__title--inverted" : "")`.
+And I think we've all seen worse classes with more inline logic than that.
+
+Don't forget about the benefits of keeping your code *[DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)*
+by not repeating the same base class over and over again. This makes changes
+in your code much easier to make and modifying the class based on a condition
+is baked in, so no need to use a ternary operator or helper functions.
+
 ### Now my IDE can't find the usages of a specific class!
 
 True, but are your classes that scattered throughout your application? Also, if that's
@@ -445,7 +457,7 @@ for the usages for that instance instead of searching for the css class string.
 ## Developing
 
 - Build with `npm run build`
-- Run tests with `npm run test` or `npm run test:unit`.
+- Run tests with `npm run test`.
 
 ## LICENSE
 
