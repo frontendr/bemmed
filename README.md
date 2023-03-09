@@ -407,12 +407,21 @@ import {BEM} from "./utils/bem";
 usage with libraries such as React. All propTypes also support an `.isRequired` property
 to allow `undefined` values.
 
+Import the prop types from `bemmed/proptypes`:
+
+```js
+// exported as propTypes:
+import {propTypes} from "bemmed/proptypes";
+// but also available as default export for easier renaming
+import BEMTypes from "bemmed/proptypes";
+```
+
 | PropType                  | Description                                                                                                                                   |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `BEM.propTypes.bem`       | Valid `BEM` or `BEMList` instances.                                                                                                           |
-| `BEM.propTypes.className` | Utility PropType for checking any valid value which can be used in a `className` attribute in `JSX` (including `BEM` or `BEMList` instances). |
-| `BEM.propTypes.element`   | Valid value for `BEM.element()`.                                                                                                              |
-| `BEM.propTypes.modifier`  | Valid value for `BEM.modifier()`.                                                                                                             |
+| `propTypes.bem`       | Valid `BEM` or `BEMList` instances.                                                                                                           |
+| `propTypes.className` | Utility PropType for checking any valid value which can be used in a `className` attribute in `JSX` (including `BEM` or `BEMList` instances). |
+| `propTypes.element`   | Valid value for `BEM.element()`.                                                                                                              |
+| `propTypes.modifier`  | Valid value for `BEM.modifier()`.                                                                                                             |
 
 ## FAQ
 
