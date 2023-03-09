@@ -1,19 +1,17 @@
 # NPM
 /node_modules
-/npm-shrinkwrap.json
-/package-lock.json
 
 # OS
 .DS_Store
 
 # (By) products
-/dist
-/es
 /lib
 *.log
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Jetbrains IDE's
 /.idea
 
-/.coveralls.yml
 /.nyc_output

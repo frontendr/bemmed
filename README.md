@@ -145,7 +145,7 @@ const BEM = require("bemmed").default;
 
 Example usage:
 
-```jsx harmony
+```jsx
 const cls = new BEM("block", "element", "modifier");
 //=> BEM(b: "block", e: "element", m: "modifier")
 
@@ -157,6 +157,8 @@ cls.toString();
 "" + cls;
 //=> "block__element--modifier"
 `${cls}`;
+//=> "block__element--modifier"
+cls.s;
 //=> "block__element--modifier"
 
 // Use in JSX:
@@ -346,6 +348,30 @@ new BEM("b1")
 // => "b1 b2 just-a-string array of items"
 ```
 
+### Converting to a string
+
+Returns a string with the class names separated by spaces.
+
+```js
+const cls = new BEM("block", "element", "modifier");
+cls.toString();
+//=> "block__element--modifier"
+
+// or use the getter:
+cls.s;
+//=> "block__element--modifier"
+```
+
+The `s` getter is a shorthand for `toString()` and is especially useful in JSX.
+
+```jsx
+const cls = new BEM("block", "element", "modifier");
+return (
+    <div className={cls.s}>Bemmed + JSX = 😀</div>
+);
+//=> JSX: <div class="block__element--modifier">Bemmed + JSX = 😀</div>
+```
+
 ### Customizing separators
 
 Use the `setup()` function to create a customized BEM class.
@@ -373,7 +399,7 @@ Then in your project just import `BEM` from that module:
 
 ```js
 import {BEM} from "./utils/bem";
-// BEM is now your customized version.
+// BEM is now your customized version that only uses underscores.
 ```
 
 ## PropTypes

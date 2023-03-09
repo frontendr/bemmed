@@ -1,20 +1,23 @@
+const DEFAULT_ELEMENT_SEPARATOR = "__";
+const DEFAULT_MODIFIER_SEPARATOR = "--";
+
 /**
- * Internal function to test if a value can be used as a BEM part. E.g. not falsy but
- * also not 0.
+ * Internal function to test if a value can be used as a BEM part. E.g. not
+ * falsy but also not 0.
  * @param {*} value The value to test.
  * @returns {boolean}
  */
-function isValidBEMPart(value) {
+function isValidBEMPart(value: unknown): boolean {
   return value === 0 || !!value;
 }
 
 /**
  * Creates a BEM part of value prefixed by the given prefix.
- * @param {string} value
- * @param {string} prefix
- * @returns {string}
+ * @param {*} value
+ * @param {String} prefix
+ * @returns {String}
  */
-function createBEMPart(value, prefix) {
+function createBEMPart(value: unknown, prefix: string): string {
   return isValidBEMPart(value) ? `${prefix}${value}` : "";
 }
 
@@ -23,80 +26,143 @@ function createBEMPart(value, prefix) {
  * @param {Array} array The array.
  * @returns {Array} A copy of the array without duplicates.
  */
-function dedupe(array) {
+function dedupe<T>(array: T[]): T[] {
   return array.filter((value, index) => array.indexOf(value) === index);
 }
 
 /**
- * convert any input to an array of modifier strings
+ * A BEM modifier value.
+ */
+type Modifier = string;
+
+/**
+ * Value which can be used as a modifier.
+ */
+type ModifierArgument = string | Record<string, unknown> | number;
+
+/**
+ * Convert any input to an array of modifier strings
  * @param {String|*[]|Object} input
  * @returns {String|String[]}
  */
-function createModifiers(input) {
-  if (!isValidBEMPart(input)) {
+function createModifiers(
+  input: ModifierArgument | ModifierArgument[]
+): Modifier | Modifier[] | null {
+  const type = typeof input;
+
+  if (input !== 0 && !input) {
     return null;
   }
 
-  const type = typeof input;
   if (
     type === "string" ||
     input instanceof String ||
     type === "number" ||
     input instanceof Number
   ) {
-    return input;
+    return input.toString();
   }
+
+  let mods;
   if (Array.isArray(input)) {
-    return input.reduce((mods, mod) => mods.concat(createModifiers(mod)), []);
+    // Must be an array of strings or objects:
+    mods = input.reduce((mods: string[], mod: ModifierArgument): string[] => {
+      const subMods = createModifiers(mod);
+      return subMods !== null ? mods.concat(subMods) : mods;
+    }, []);
+  } else {
+    // Treat like an object with modifiers as keys and conditions as values
+    mods = Object.entries(input).reduce(
+      (mods: string[], [mod, condition]): string[] => {
+        return condition ? mods.concat(mod) : mods;
+      },
+      []
+    );
   }
-  return Object.entries(input).reduce((mods, [mod, condition]) => {
-    return mods.concat(condition ? [mod] : []);
-  }, []);
+
+  if (mods.length === 0) return null;
+  if (mods.length === 1) return mods[0];
+  return mods;
 }
 
 /**
  * Array object with convenience methods to handle multiple BEM instances.
  */
-export class BEMList extends Array {}
+export class BEMList extends Array {
+  /**
+   * Forces all items to their string value and returns them joined by a space.
+   * @return {string} The full class name composed of all BEM instances in the
+   * list.
+   */
+  toString(): string {
+    return this.filter(isValidBEMPart)
+      .map((bem) => bem.toString())
+      .join(" ");
+  }
+
+  /**
+   * Shorthand for toString()
+   */
+  get s(): string {
+    return this.toString();
+  }
+
+  /**
+   * Returns a BEMList of this instance with the given items
+   * @param {...BEM|BEMList|string} items
+   * @return {*[]}
+   */
+  concat(...items: unknown[]): unknown[] {
+    return super.concat(...dedupe(items));
+  }
+}
 
 /**
- * Forces all items to their string value and returns them joined by a space.
- * @return {string} The full class name composed from all BEM instances in the list.
+ * BEM base class
  */
-BEMList.prototype.toString = function toString() {
-  return this.filter(isValidBEMPart)
-    .map((bem) => bem.toString())
-    .join(" ");
-};
+class Bemmed {
+  b: string;
+  e: string | null;
+  m: string | null;
 
-/**
- * Returns a BEMList of this instance with the given items
- * @param {...BEM|BEMList|string} items
- * @return {*[]}
- */
-BEMList.prototype.concat = function concat(...items) {
-  return Array.prototype.concat.call(this, ...dedupe(items));
-};
+  readonly es: string = DEFAULT_ELEMENT_SEPARATOR;
+  readonly ms: string = DEFAULT_MODIFIER_SEPARATOR;
 
-/**
- * BEM class prototype
- */
-const Proto = {
+  /**
+   * Alias for `element()`
+   */
+  elem: typeof Bemmed.prototype.element;
+
+  /**
+   * Alias for `modifier()`
+   */
+  mod: typeof Bemmed.prototype.modifier;
+
+  constructor(b: string, e: string | null = null, m: string | null = null) {
+    this.b = b;
+    this.e = e;
+    this.m = m;
+
+    // Bind alias methods:
+    this.elem = this.element.bind(this);
+    this.mod = this.modifier.bind(this);
+  }
+
   /**
    * Create a new BEM class with the given element part.
-   * @param {string} element The element part of the class.
+   * @param {String} element The element part of the class.
    * @param {...String} [modifiers] Optional modifier part(s).
    * @return {BEM|BEMList} A new BEM instance with the current block and given element and
    * modifier parts. If modifier parts are given, an array of BEM instances of the element
    * and all modified classes is returned.
    */
-  element(element, ...modifiers) {
-    const cls = new this.constructor(this.b, element, null);
+  element(element: string, ...modifiers: ModifierArgument[]) {
+    const bem = new this.cls(this.b, element, null);
     if (modifiers.length) {
-      return cls.withMod(...modifiers);
+      return bem.withMod(...modifiers);
     }
-    return cls;
-  },
+    return bem;
+  }
 
   /**
    * Returns a list of BEM instances for the given elements.
@@ -107,9 +173,9 @@ const Proto = {
    * @param {...string} elements
    * @returns {BEMList}
    */
-  elements(...elements) {
+  elements(...elements: string[]) {
     return BEMList.from(elements).map((element) => this.element(element));
-  },
+  }
 
   /**
    * Returns a list of BEM objects starting with this object followed the element and
@@ -123,9 +189,9 @@ const Proto = {
    * cls.withElem('element1', 'element2');
    * > ["block", "block__element1", "block__element2"]
    */
-  withElem(...elements) {
+  withElem(...elements: string[]) {
     return this.concat(...this.elements(...elements));
-  },
+  }
 
   /**
    * Create a new BEM class with the given modifier(s)
@@ -135,15 +201,21 @@ const Proto = {
    * modifier parts. If an array
    * is given, an array of BEM instances is returned.
    */
-  modifier(...modifiers) {
+  modifier(...modifiers: ModifierArgument[]): Bemmed | BEMList {
     const mods = createModifiers(modifiers);
-    if (mods.length > 1) {
-      return BEMList.from(
-        dedupe(mods).map((m) => new this.constructor(this.b, this.e, m))
-      );
+    const isArray = Array.isArray(mods);
+    if (mods === null || (isArray && !mods.length)) {
+      // no new modifiers, so just return this:
+      return this;
     }
-    return new this.constructor(this.b, this.e, mods[0]);
-  },
+
+    if (isArray) {
+      return BEMList.from(
+        dedupe(mods).map((m) => new this.cls(this.b, this.e, m))
+      ) as BEMList;
+    }
+    return new this.cls(this.b, this.e, mods);
+  }
 
   /**
    * Returns a list of BEM objects starting with this object followed by modifications of
@@ -151,43 +223,68 @@ const Proto = {
    * @param {...string|Object} modifiers Rest arguments are applied as modifier
    * @return {BEMList} List of BEM instances.
    */
-  withMod(...modifiers) {
+  withMod(...modifiers: ModifierArgument[]): BEMList {
     const mods = dedupe(modifiers)
       .map((m) => this.modifier(m))
       .filter((bem) => bem instanceof BEMList || !!bem.m);
     return this.concat(...mods);
-  },
+  }
 
   /**
    * Returns a BEMList of this instance with the given items
    * @param {...BEM|BEMList|string} items
    * @returns {BEMList}
    */
-  concat(...items) {
-    return BEMList.from([this, ...dedupe(items)]);
-  },
+  concat(...items: unknown[]): BEMList {
+    return BEMList.from([this, ...dedupe(items)]) as BEMList;
+  }
 
   /**
    * Returns the string representation of this BEM class.
    * @return {string} A string in the form of block__element--modifier
    */
-  toString() {
-    return this.b + createBEMPart(this.e, this.es) + createBEMPart(this.m, this.ms);
-  },
+  toString(): string {
+    return (
+      this.b + createBEMPart(this.e, this.es) + createBEMPart(this.m, this.ms)
+    );
+  }
+
+  /**
+   * Shorthand for toString()
+   */
+  get s(): string {
+    return this.toString();
+  }
+
+  /**
+   * Returns the class object of this BEM class.
+   */
+  get cls(): typeof Bemmed {
+    return this.constructor as typeof Bemmed;
+  }
+
+  static propTypes = getPropTypes();
+}
+
+type PropTypeCheckResult = Error | undefined;
+export type PropTypeFunction = (
+  props: Record<string, unknown>,
+  type: string,
+  propName: string,
+  componentName: string
+) => PropTypeCheckResult;
+
+export type PropTypeFunctionWithRequired = PropTypeFunction & {
+  isRequired: PropTypeFunction;
 };
 
-/**
- * Add method aliases
- */
-Object.assign(Proto, {
-  elem: Proto.element,
-  mod: Proto.modifier,
-});
+type PropTypeChecker = (
+  value: unknown,
+  type: string,
+  propName: string,
+  componentName: string
+) => PropTypeCheckResult;
 
-/**
- * Creates the BEM.propTypes object.
- * @returns {{modifier: ((function(*, *=, *=): Error)|undefined), className: ((function(*, *, *): Error)|undefined), bem: ((function(*, *=, *=): Error)|undefined), element: ((function(*, *=, *=): Error)|undefined)}}
- */
 function getPropTypes() {
   /**
    * Returns a prop type error message.
@@ -197,7 +294,12 @@ function getPropTypes() {
    * @param {string} actual The type of the value
    * @returns {Error}
    */
-  function propTypeError(propName, componentName, expected, actual) {
+  function propTypeError(
+    propName: string,
+    componentName: string,
+    expected: string[],
+    actual: string
+  ): Error {
     return new Error(
       `Invalid prop '${propName}' provided to ${componentName}. Expected ${expected.join(
         ", "
@@ -213,9 +315,22 @@ function getPropTypes() {
    * @param {string} componentName Name of the component
    * @returns {Error|undefined}
    */
-  function bemPropType(value, type, propName, componentName) {
-    if (type !== "object" || !(value instanceof BEM || value instanceof BEMList)) {
-      return propTypeError(propName, componentName, ["an instance of BEM"], type);
+  function bemPropType(
+    value: unknown,
+    type: string,
+    propName: string,
+    componentName: string
+  ): Error | undefined {
+    if (
+      type !== "object" ||
+      !(value instanceof BEM || value instanceof BEMList)
+    ) {
+      return propTypeError(
+        propName,
+        componentName,
+        ["an instance of BEM"],
+        type
+      );
     }
   }
 
@@ -227,7 +342,12 @@ function getPropTypes() {
    * @param {string} componentName Name of the component
    * @returns {Error|undefined}
    */
-  function elementPropType(value, type, propName, componentName) {
+  function elementPropType(
+    value: unknown,
+    type: string,
+    propName: string,
+    componentName: string
+  ): Error | undefined {
     const expected = ["string", "number"];
     if (!expected.includes(type)) {
       return propTypeError(propName, componentName, expected, type);
@@ -242,7 +362,12 @@ function getPropTypes() {
    * @param {string} componentName Name of the component
    * @returns {Error|undefined}
    */
-  function modifierPropType(value, type, propName, componentName) {
+  function modifierPropType(
+    value: unknown,
+    type: string,
+    propName: string,
+    componentName: string
+  ): Error | undefined {
     const expected = ["object", "string", "number"];
     if (!expected.includes(type)) {
       return propTypeError(propName, componentName, expected, type);
@@ -257,10 +382,19 @@ function getPropTypes() {
    * @param {string} componentName Name of the component
    * @returns {Error|undefined}
    */
-  function classNamePropType(value, type, propName, componentName) {
+  function classNamePropType(
+    value: unknown,
+    type: string,
+    propName: string,
+    componentName: string
+  ): Error | undefined {
     const expected = ["string", "number"];
     if (
-      !(expected.includes(type) || value instanceof BEM || value instanceof BEMList)
+      !(
+        expected.includes(type) ||
+        value instanceof BEM ||
+        value instanceof BEMList
+      )
     ) {
       return propTypeError(
         propName,
@@ -278,7 +412,10 @@ function getPropTypes() {
    * @param {function} func
    * @returns {function(*, *=, *=): Error|undefined}
    */
-  function getPropTypeChecker(isRequired, func) {
+  function getPropTypeChecker(
+    isRequired: boolean,
+    func: PropTypeChecker
+  ): PropTypeFunction {
     /**
      * The propType function. Handles falsy values based on isRequired and calls the
      * given function if a value is given.
@@ -287,7 +424,11 @@ function getPropTypes() {
      * @param {string} componentName Component name.
      * @return {Error|undefined} Returns an error if an invalid value is given.
      */
-    return function propType(props, propName, componentName) {
+    return function propType(
+      props: Record<string, unknown>,
+      propName: string,
+      componentName: string
+    ): PropTypeCheckResult {
       const value = props[propName];
       const type = typeof value;
       if (type === "undefined" && !isRequired) {
@@ -305,10 +446,11 @@ function getPropTypes() {
    * @param {function} func The checker function
    * @returns {function(*, *=, *=): Error|undefined}
    */
-  function getPropType(func) {
+  function getPropType(func: PropTypeChecker): PropTypeFunctionWithRequired {
     const propType = getPropTypeChecker(false, func);
-    propType.isRequired = getPropTypeChecker(true, func);
-    return propType;
+    return Object.assign(propType, {
+      isRequired: getPropTypeChecker(true, func),
+    });
   }
 
   return {
@@ -335,73 +477,22 @@ function getPropTypes() {
   };
 }
 
-/**
- * Object with options for the created BEM class.
- * @typedef {{elementSeparator: string, modifierSeparator: string}} BEMOptions
- */
+type BEMSetupOptions = {
+  elementSeparator?: string;
+  modifierSeparator?: string;
+};
 
-/**
- * Factory function for a BEM class
- * @param {BEMOptions} [options={}] Customizations for the created class.
- * @returns {BEM}
- */
-export function setup(options = {}) {
-  const {elementSeparator = "__", modifierSeparator = "--"} = options;
-
-  /**
-   * BEM class constructor
-   * @param {string} block The block part of the class.
-   * @param {string|null} [element=null] Optional element part of the class.
-   * @param {string|null} [modifier=null] Optional modifier part of the class.
-   * @constructor
-   */
-  function BEM(block, element = null, modifier = null) {
-    this.b = block;
-    this.e = element;
-    this.m = modifier;
+export function setup(options: BEMSetupOptions = {}): typeof Bemmed {
+  const {
+    elementSeparator = DEFAULT_ELEMENT_SEPARATOR,
+    modifierSeparator = DEFAULT_MODIFIER_SEPARATOR,
+  } = options;
+  class BEM extends Bemmed {
+    es = elementSeparator;
+    ms = modifierSeparator;
   }
-
-  /**
-   * Collection of BEM related propTypes.
-   * @type {{modifier: ((function(*, *=, *=): Error)|undefined), className: ((function(*, *, *): Error)|undefined), bem: ((function(*, *=, *=): Error)|undefined), element: ((function(*, *=, *=): Error)|undefined)}}
-   */
-  BEM.propTypes = getPropTypes();
-
-  /**
-   * Previous versions had a propType property which checked if a property was a valid
-   * className property. This property is now deprecated in favor of
-   * BEM.propTypes.className and will be removed in the next major release.
-   * @type {((function(*, *, *): Error)|undefined)}
-   * @deprecated
-   */
-  BEM.propType = BEM.propTypes.className;
-
-  /**
-   * Set the prototype to Proto extended with the `es` and `ms` properties.
-   * @type {Proto}
-   */
-  BEM.prototype = Object.create(Proto, {
-    es: {value: elementSeparator},
-    ms: {value: modifierSeparator},
-    constructor: {value: BEM},
-  });
-
   return BEM;
 }
 
-/**
- * Setup a BEM class with default settings.
- * @type {BEM}
- */
 export const BEM = setup();
-
-/**
- * Export it's propType as BEMType.
- * @deprecated
- */
-export const BEMTypes = BEM.propType;
-
-/**
- * And make the BEM class the default export.
- */
 export default BEM;
