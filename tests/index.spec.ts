@@ -4,7 +4,11 @@ import { describe, it } from "mocha";
 
 import DefaultExport from "../src";
 import { BEM, BEMList, setup } from "../src";
-import { PropTypeFunctionWithRequired, PropTypeFunction } from "../src";
+import propTypes from "../src/proptypes";
+import {
+  PropTypeFunction,
+  PropTypeFunctionWithRequired,
+} from "../src/proptypes";
 
 describe("When constructing a new BEM instance", () => {
   it("should be able to only create a block", () => {
@@ -347,8 +351,8 @@ const props = {
   undef: undefined,
 };
 
-describe("BEM.propTypes.bem", () => {
-  const func = BEM.propTypes.bem;
+describe("propTypes.bem", () => {
+  const func = propTypes.bem;
 
   it("should only reject undefined when required", () => {
     shouldAccept(func, props, "undef");
@@ -388,8 +392,8 @@ describe("BEM.propTypes.bem", () => {
   });
 });
 
-describe("BEM.propTypes.className", () => {
-  const func = BEM.propTypes.className;
+describe("propTypes.className", () => {
+  const func = propTypes.className;
 
   it("should only reject undefined when required", () => {
     shouldAccept(func, props, "undef");
@@ -433,8 +437,8 @@ describe("BEM.propTypes.className", () => {
   });
 });
 
-describe("BEM.propTypes.element", () => {
-  const func = BEM.propTypes.element;
+describe("propTypes.element", () => {
+  const func = propTypes.element;
 
   it("should only reject undefined when required", () => {
     shouldAccept(func, props, "undef");
@@ -478,8 +482,8 @@ describe("BEM.propTypes.element", () => {
   });
 });
 
-describe("BEM.propTypes.modifier", () => {
-  const func = BEM.propTypes.modifier;
+describe("propTypes.modifier", () => {
+  const func = propTypes.modifier;
 
   it("should only reject undefined when required", () => {
     shouldAccept(func, props, "undef");

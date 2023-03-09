@@ -12,7 +12,6 @@ npm install bemmed
 [![npm version](https://img.shields.io/npm/v/bemmed.svg)](https://www.npmjs.com/package/bemmed)
 [![npm downloads](https://img.shields.io/npm/dm/bemmed.svg)](https://www.npmjs.com/package/bemmed)
 [![Coverage Status](https://coveralls.io/repos/github/frontendr/bemmed/badge.svg?branch=develop)](https://coveralls.io/github/frontendr/bemmed?branch=develop)
-[![DevDependencies](https://img.shields.io/david/dev/frontendr/bemmed.svg)](https://david-dm.org/frontendr/bemmed?type=dev)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## The problem solved
@@ -408,12 +407,21 @@ import {BEM} from "./utils/bem";
 usage with libraries such as React. All propTypes also support an `.isRequired` property
 to allow `undefined` values.
 
+Import the prop types from `bemmed/proptypes`:
+
+```js
+// exported as propTypes:
+import {propTypes} from "bemmed/proptypes";
+// but also available as default export for easier renaming
+import BEMTypes from "bemmed/proptypes";
+```
+
 | PropType                  | Description                                                                                                                                   |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `BEM.propTypes.bem`       | Valid `BEM` or `BEMList` instances.                                                                                                           |
-| `BEM.propTypes.className` | Utility PropType for checking any valid value which can be used in a `className` attribute in `JSX` (including `BEM` or `BEMList` instances). |
-| `BEM.propTypes.element`   | Valid value for `BEM.element()`.                                                                                                              |
-| `BEM.propTypes.modifier`  | Valid value for `BEM.modifier()`.                                                                                                             |
+| `propTypes.bem`       | Valid `BEM` or `BEMList` instances.                                                                                                           |
+| `propTypes.className` | Utility PropType for checking any valid value which can be used in a `className` attribute in `JSX` (including `BEM` or `BEMList` instances). |
+| `propTypes.element`   | Valid value for `BEM.element()`.                                                                                                              |
+| `propTypes.modifier`  | Valid value for `BEM.modifier()`.                                                                                                             |
 
 ## FAQ
 
