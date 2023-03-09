@@ -12,7 +12,6 @@ npm install bemmed
 [![npm version](https://img.shields.io/npm/v/bemmed.svg)](https://www.npmjs.com/package/bemmed)
 [![npm downloads](https://img.shields.io/npm/dm/bemmed.svg)](https://www.npmjs.com/package/bemmed)
 [![Coverage Status](https://coveralls.io/repos/github/frontendr/bemmed/badge.svg?branch=develop)](https://coveralls.io/github/frontendr/bemmed?branch=develop)
-[![DevDependencies](https://img.shields.io/david/dev/frontendr/bemmed.svg)](https://david-dm.org/frontendr/bemmed?type=dev)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## The problem solved
