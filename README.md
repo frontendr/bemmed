@@ -8,7 +8,7 @@
 npm install bemmed
 ```
 
-[![Build Status](https://travis-ci.org/frontendr/bemmed.svg?branch=develop)](https://travis-ci.org/frontendr/bemmed)
+[![Build Status](https://app.travis-ci.com/frontendr/bemmed.svg?branch=develop)](https://app.travis-ci.com/frontendr/bemmed)
 [![npm version](https://img.shields.io/npm/v/bemmed.svg)](https://www.npmjs.com/package/bemmed)
 [![npm downloads](https://img.shields.io/npm/dm/bemmed.svg)](https://www.npmjs.com/package/bemmed)
 [![Size (gzipped)](https://img.shields.io/bundlephobia/minzip/bemmed?label=size%20%28gzipped%29)](https://bundlephobia.com/package/bemmed)
