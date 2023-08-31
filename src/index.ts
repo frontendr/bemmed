@@ -110,10 +110,10 @@ export class BEMList extends Array {
   /**
    * Returns a BEMList of this instance with the given items
    * @param {...BEM|BEMList|string} items
-   * @return {*[]}
+   * @return {BEMList}
    */
-  concat(...items: unknown[]): unknown[] {
-    return super.concat(...dedupe(items));
+  concat(...items: unknown[]): BEMList {
+    return super.concat(...dedupe(items)) as BEMList;
   }
 }
 
