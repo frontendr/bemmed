@@ -51,6 +51,11 @@ describe("When setting the element of an instance", () => {
   it("should not change the element part on the original instance", () => {
     assert.strictEqual(block.toString(), "block");
   });
+
+  const usingShorthand = block.elem("short");
+  it("should be able to use the elem() shorthand method", () => {
+    assert.strictEqual(usingShorthand.toString(), "block__short");
+  });
 });
 
 describe("When setting the modifier of an instance", () => {
@@ -83,6 +88,11 @@ describe("When setting the modifier of an instance", () => {
 
   it("should treat 0 as a valid modifier value", () => {
     assert.strictEqual(block.modifier(0).toString(), "block--0");
+  });
+
+  const usingShorthand = block.mod("short");
+  it("should be able to use the mod() shorthand method", () => {
+    assert.strictEqual(usingShorthand.toString(), "block--short");
   });
 });
 
