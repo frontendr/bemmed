@@ -1,6 +1,6 @@
 {
   "name": "bemmed",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "BEM class name composer.",
   "exports": {
     ".": {
@@ -25,8 +25,9 @@
     "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs && mv lib/esm/proptypes.js lib/esm/proptypes.mjs",
     "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
     "lint": "eslint .",
-    "test": "nyc npm run test:unit",
-    "test:unit": "mocha",
+    "test": "npm run test:unit",
+    "test:unit": "nyc mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "prepack": "npm run build"
   },
   "release": {
@@ -56,17 +57,18 @@
   "bugs": "https://github.com/frontendr/bemmed/issues",
   "license": "MIT",
   "devDependencies": {
-    "@types/chai": "^4.3.3",
-    "@types/mocha": "^9.1.1",
-    "@typescript-eslint/eslint-plugin": "^5.54.1",
-    "@typescript-eslint/parser": "^5.54.1",
-    "chai": "^4.3.6",
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "chai": "^4.3.7",
+    "coveralls": "^3.1.1",
     "eslint": "^8.35.0",
-    "eslint-config-prettier": "^8.7.0",
-    "mocha": "^10.0.1",
+    "eslint-config-prettier": "^9.0.0",
+    "mocha": "^10.2.0",
     "nyc": "^15.1.0",
-    "prettier": "^2.8.4",
+    "prettier": "^3.0.2",
     "ts-node": "^10.9.1",
-    "typescript": "^4.7.4"
+    "typescript": "^5.1.6"
   }
 }
