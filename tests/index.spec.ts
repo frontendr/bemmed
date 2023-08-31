@@ -82,7 +82,7 @@ describe("When setting the modifier of an instance", () => {
     assert.strictEqual(
       // @ts-expect-error - testing falsy values
       block.modifier(null, false, undefined).toString(),
-      "block"
+      "block",
     );
   });
 
@@ -113,7 +113,7 @@ describe("When using an object as modifier", () => {
   it("should use all keys with a truthy value as modifiers", () => {
     assert.strictEqual(
       block.toString(),
-      "block--mod-true block--mod-1 block--mod-object block--mod-array"
+      "block--mod-true block--mod-1 block--mod-object block--mod-array",
     );
   });
 });
@@ -147,7 +147,7 @@ describe("When setting multiple modifiers of an instance", () => {
   it("should also work with an object", () => {
     assert.strictEqual(
       blockModifiedWithObject.toString(),
-      "block--yes block--awesome"
+      "block--yes block--awesome",
     );
   });
 });
@@ -172,7 +172,7 @@ describe("When setting both the element and modifier of an instance", () => {
   it("should create a block__element and block__element--modifier class", () => {
     assert.strictEqual(
       blockElementModifier.toString(),
-      "block__element block__element--modifier"
+      "block__element block__element--modifier",
     );
   });
 
@@ -201,7 +201,7 @@ describe("When setting an element with multiple modifiers", () => {
   it("should create a block__element and 2 block__element--modifier classes", () => {
     assert.strictEqual(
       blockElementModifiers.toString(),
-      "block__element block__element--mod1 block__element--mod2"
+      "block__element block__element--mod1 block__element--mod2",
     );
   });
 
@@ -210,7 +210,7 @@ describe("When setting an element with multiple modifiers", () => {
       "element",
       "mod1",
       "mod2",
-      "mod1"
+      "mod1",
     );
     if (!(blockElementDuplicateMods instanceof BEMList)) {
       return;
@@ -219,7 +219,7 @@ describe("When setting an element with multiple modifiers", () => {
     assert.strictEqual(blockElementDuplicateMods.length, 3);
     assert.strictEqual(
       blockElementDuplicateMods.toString(),
-      "block__element block__element--mod1 block__element--mod2"
+      "block__element block__element--mod1 block__element--mod2",
     );
   });
 });
@@ -266,7 +266,7 @@ describe("When creating a block *with* an element", () => {
     const blockWithNewElement = blockElement.withElem("element2");
     assert.strictEqual(
       blockWithNewElement.toString(),
-      "block__element block__element2"
+      "block__element block__element2",
     );
   });
 });
@@ -312,7 +312,7 @@ describe("When creating a block *with* a modifier", () => {
   it("should correctly apply object modifiers", () => {
     assert.strictEqual(
       blockWithMixedObjectModifiers.toString(),
-      "block block--foo block--bar"
+      "block block--foo block--bar",
     );
   });
 });
@@ -326,7 +326,7 @@ describe("When creating a block *with* a modifier", () => {
 function shouldAccept(
   func: PropTypeFunctionWithRequired | PropTypeFunction,
   props: Record<string, unknown>,
-  prop: string
+  prop: string,
 ) {
   assert.strictEqual(func(props, prop, "foo", "TestComponent"), undefined);
 }
@@ -340,11 +340,11 @@ function shouldAccept(
 function shouldReject(
   func: PropTypeFunctionWithRequired | PropTypeFunction,
   props: Record<string, unknown>,
-  prop: string
+  prop: string,
 ) {
   assert.strictEqual(
     func(props, prop, "foo", "TestComponent") instanceof Error,
-    true
+    true,
   );
 }
 

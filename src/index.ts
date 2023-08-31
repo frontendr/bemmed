@@ -46,7 +46,7 @@ type ModifierArgument = string | Record<string, unknown> | number;
  * @returns {String|String[]}
  */
 function createModifiers(
-  input: ModifierArgument | ModifierArgument[]
+  input: ModifierArgument | ModifierArgument[],
 ): Modifier | Modifier[] | null {
   const type = typeof input;
 
@@ -76,7 +76,7 @@ function createModifiers(
       (mods: string[], [mod, condition]): string[] => {
         return condition ? mods.concat(mod) : mods;
       },
-      []
+      [],
     );
   }
 
@@ -211,7 +211,7 @@ class Bemmed {
 
     if (isArray) {
       return BEMList.from(
-        dedupe(mods).map((m) => new this.cls(this.b, this.e, m))
+        dedupe(mods).map((m) => new this.cls(this.b, this.e, m)),
       ) as BEMList;
     }
     return new this.cls(this.b, this.e, mods);
