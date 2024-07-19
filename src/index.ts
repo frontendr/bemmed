@@ -163,7 +163,7 @@ class Bemmed {
    * modifier parts. If modifier parts are given, an array of BEM instances of the element
    * and all modified classes is returned.
    */
-  element(element: string, ...modifiers: ModifierArgument[]) {
+  element(element: string, ...modifiers: ModifierArgument[]): Bemmed | BEMList {
     const bem = new this.cls(this.b, element, null);
     if (modifiers.length) {
       return bem.withMod(...modifiers);
@@ -178,9 +178,9 @@ class Bemmed {
    * // itemClass === "list__item"
    * // linkClass === "list__link"
    * @param {...string} elements
-   * @returns {BEMList}
+   * @returns {(BEMList | Bemmed)[]}
    */
-  elements(...elements: string[]) {
+  elements(...elements: string[]): (BEMList | Bemmed)[] {
     return BEMList.from(elements).map((element) => this.element(element));
   }
 
@@ -196,7 +196,7 @@ class Bemmed {
    * cls.withElem('element1', 'element2');
    * > ["block", "block__element1", "block__element2"]
    */
-  withElem(...elements: string[]) {
+  withElem(...elements: string[]): BEMList {
     return this.concat(...this.elements(...elements));
   }
 
