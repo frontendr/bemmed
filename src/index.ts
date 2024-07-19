@@ -108,6 +108,13 @@ export class BEMList extends Array {
   }
 
   /**
+   * Shorthand for toString()
+   */
+  get str(): string {
+    return this.toString();
+  }
+
+  /**
    * Returns a BEMList of this instance with the given items
    * @param {...BEM|BEMList|string} items
    * @return {BEMList}
@@ -253,6 +260,13 @@ class Bemmed {
    * Shorthand for toString()
    */
   get s(): string {
+    return this.toString();
+  }
+
+  /**
+   * Shorthand for toString()
+   */
+  get str(): string {
     return this.toString();
   }
 

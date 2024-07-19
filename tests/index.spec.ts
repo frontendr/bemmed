@@ -29,6 +29,11 @@ describe("When constructing a new BEM instance", () => {
     const cls = new BEM("block", "element", "modifier");
     assert.strictEqual(cls.s, "block__element--modifier");
   });
+
+  it("should also convert to a string with the .str getter", () => {
+    const cls = new BEM("block", "element", "modifier");
+    assert.strictEqual(cls.str, "block__element--modifier");
+  });
 });
 
 describe("When setting the element of an instance", () => {
@@ -137,6 +142,10 @@ describe("When setting multiple modifiers of an instance", () => {
 
   it("should be converted to a string with the .s getter", () => {
     assert.strictEqual(blockModifiers.s, "block--mod1 block--mod2");
+  });
+
+  it("should be converted to a string with the .str getter", () => {
+    assert.strictEqual(blockModifiers.str, "block--mod1 block--mod2");
   });
 
   it("should create 2 block--modifier classes", () => {
