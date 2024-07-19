@@ -1,5 +1,4 @@
-import "mocha";
-import { assert } from "chai";
+import * as assert from "node:assert";
 import { describe, it } from "mocha";
 
 import DefaultExport from "../src";

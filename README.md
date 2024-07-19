@@ -139,10 +139,7 @@ or in CommonJS:
 
 ```js
 // require the named export:
-const {BEM} = require("bemmed");
-
-// or as default:
-const BEM = require("bemmed");
+const { BEM } = require("bemmed");
 ```
 
 Example usage:
