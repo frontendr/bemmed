@@ -40,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/frontendr/bemmed.git"
+    "url": "git+https://github.com/frontendr/bemmed.git"
   },
   "keywords": [
     "bem",
