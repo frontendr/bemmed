@@ -63,7 +63,7 @@ function createModifiers(
     return input.toString();
   }
 
-  let mods;
+  let mods: Modifier[];
   if (Array.isArray(input)) {
     // Must be an array of strings or objects:
     mods = input.reduce((mods: string[], mod: ModifierArgument): string[] => {
