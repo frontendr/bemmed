@@ -160,6 +160,10 @@ cls.toString();
 cls.s;
 //=> "block__element--modifier"
 
+// Convert to an array of strings:
+cls.toArray();
+//=> ["block__element--modifier"]
+
 // Use in JSX:
 <div className={cls}>x</div>;
 //=> <div class="block__element--modifier">x</div>
@@ -372,6 +376,25 @@ return (
 );
 //=> JSX: <div class="block__element--modifier">Bemmed + JSX = 😀</div>
 ```
+
+### Using an array of strings
+WHen using a `BEMList` or `BEM` instance, the `.toString()` method returns a
+string with all BEM instances joined by a space character. The `.toArray()`
+method returns an array of strings instead. This removes the need to add `.s` or
+`.toString()` every time a class is used and to easily pass individual classes
+to tools that only expect strings.
+
+For example, using a `BEM` instance with [clsx](https://www.npmjs.com/package/clsx)
+would cause it to iterate the internal properties, but when we pass it an array
+it's all good.
+```jsx
+const [element, modifier] = new BEM("block", "element").withMod("modifier").toArray();
+return (
+    <div className={clsx(element, modifier)}>Bemmed + clsx() = 😀</div>
+);
+```
+Of course this is a silly example, but the last thing we want is having to type
+more than we need to right?
 
 ### Customizing separators
 

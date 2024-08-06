@@ -95,9 +95,7 @@ export class BEMList extends Array {
    * list.
    */
   toString(): string {
-    return this.filter(isValidBEMPart)
-      .map((bem) => bem.toString())
-      .join(" ");
+    return this.toArray().join(" ");
   }
 
   /**
@@ -112,6 +110,14 @@ export class BEMList extends Array {
    */
   get str(): string {
     return this.toString();
+  }
+
+  /**
+   * Returns an array of strings of all BEM instances in the list.
+   * @return {string[]}
+   */
+  toArray(): string[] {
+    return Array.from(this.filter(isValidBEMPart).map((bem) => bem.toString()));
   }
 
   /**
@@ -254,6 +260,14 @@ class Bemmed {
     return (
       this.b + createBEMPart(this.e, this.es) + createBEMPart(this.m, this.ms)
     );
+  }
+
+  /**
+   * Returns an array of strings of all BEM instances in the list.
+   * @return {string[]}
+   */
+  toArray(): string[] {
+    return [this.toString()];
   }
 
   /**

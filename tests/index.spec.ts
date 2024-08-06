@@ -34,6 +34,11 @@ describe("When constructing a new BEM instance", () => {
     const cls = new BEM("block", "element", "modifier");
     assert.strictEqual(cls.str, "block__element--modifier");
   });
+
+  it("should also convert to an Array of strings with .toArray()", () => {
+    const cls = new BEM("block", "element", "modifier");
+    assert.deepStrictEqual(cls.toArray(), ["block__element--modifier"]);
+  });
 });
 
 describe("When setting the element of an instance", () => {
@@ -129,6 +134,8 @@ describe("When setting multiple modifiers of an instance", () => {
     yes: true,
     awesome: true,
   });
+  const expectedClasses = ["block--mod1", "block--mod2"];
+  const expectedClass = expectedClasses.join(" ");
 
   it("should create a BEMList", () => {
     assert.strictEqual(blockModifiers instanceof BEMList, true);
@@ -141,15 +148,19 @@ describe("When setting multiple modifiers of an instance", () => {
   });
 
   it("should be converted to a string with the .s getter", () => {
-    assert.strictEqual(blockModifiers.s, "block--mod1 block--mod2");
+    assert.strictEqual(blockModifiers.s, expectedClass);
   });
 
   it("should be converted to a string with the .str getter", () => {
-    assert.strictEqual(blockModifiers.str, "block--mod1 block--mod2");
+    assert.strictEqual(blockModifiers.str, expectedClass);
   });
 
   it("should create 2 block--modifier classes", () => {
     assert.strictEqual(blockModifiers.toString(), "block--mod1 block--mod2");
+  });
+
+  it("should be converted to an array of 2 strings with toArray()", () => {
+    assert.deepStrictEqual(blockModifiers.toArray(), expectedClasses);
   });
 
   it("should also work with an object", () => {
@@ -164,6 +175,7 @@ describe("When setting both the element and modifier of an instance", () => {
   const block = new BEM("block", "old-element");
   const blockElementModifier = block.element("element", "modifier");
   const isBEMList = blockElementModifier instanceof BEMList;
+  const expectedClasses = ["block__element", "block__element--modifier"];
 
   it("should create a BEMList", () => {
     assert.strictEqual(isBEMList, true);
@@ -177,7 +189,7 @@ describe("When setting both the element and modifier of an instance", () => {
     assert.strictEqual(blockElementModifier.length, 2);
   });
 
-  it("should create a block__element and block__element--modifier class", () => {
+  it(`should create a ${expectedClasses.join(" ")} class with toString()`, () => {
     assert.strictEqual(
       blockElementModifier.toString(),
       "block__element block__element--modifier",
@@ -186,6 +198,10 @@ describe("When setting both the element and modifier of an instance", () => {
 
   it("should not modify the original instance", () => {
     assert.strictEqual(block.toString(), "block__old-element");
+  });
+
+  it("should be converted to an array of 2 strings with toArray()", () => {
+    assert.deepStrictEqual(blockElementModifier.toArray(), expectedClasses);
   });
 });
 
